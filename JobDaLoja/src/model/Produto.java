@@ -3,7 +3,6 @@ package model;
 public class Produto {
 	
 	private String nome;
-	private String tipo;
 	private float preco;
 	private int quantidadeEmEstoque;
 	/**
@@ -18,18 +17,7 @@ public class Produto {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	/**
-	 * @return the tipo
-	 */
-	public String getTipo() {
-		return tipo;
-	}
-	/**
-	 * @param tipo the tipo to set
-	 */
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+	
 	/**
 	 * @return the preco
 	 */
