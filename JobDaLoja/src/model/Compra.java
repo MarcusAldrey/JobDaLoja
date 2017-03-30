@@ -12,10 +12,12 @@ public class Compra {
 	private Date date;
 	private float valorTotal;
 	private Date dataDeVencimento;
+	private boolean paga;
 	
 	public Compra() {
 		this.id = idCont;
 		idCont++;
+		setPaga(false);
 	}
 	
 	/**
@@ -104,6 +106,20 @@ public class Compra {
 	 */
 	public int getId() {
 		return id;
+	}
+
+	/**
+	 * @return the paga
+	 */
+	public boolean isPaga() {
+		return paga;
+	}
+
+	/**
+	 * @param paga the paga to set
+	 */
+	public void setPaga(boolean paga) {
+		this.paga = paga;
 	}
 	
 	

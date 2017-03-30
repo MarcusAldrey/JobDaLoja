@@ -7,6 +7,7 @@ public class Cliente {
 	
 	private String nome;
 	private String telefone;
+	private String CPF;
 	private List<Compra> compras;
 	private Endereco endereco;
 	private Date dataDeNasc;
@@ -70,6 +71,18 @@ public class Cliente {
 	 */
 	public void setDataDeNasc(Date dataDeNasc) {
 		this.dataDeNasc = dataDeNasc;
+	}
+	/**
+	 * @return the cPF
+	 */
+	public String getCPF() {
+		return CPF;
+	}
+	/**
+	 * @param cPF the cPF to set
+	 */
+	public void setCPF(String cPF) {
+		CPF = cPF;
 	}
 		
 }

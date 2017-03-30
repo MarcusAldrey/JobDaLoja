@@ -85,7 +85,7 @@ public class TelaCadastroCliente extends TelaCadastro {
 		label = new JLabel("Telefone:");
 		painel.add(label);
 		try {
-			telefone = new JFormattedTextField(new MaskFormatter("(##)####-####"));
+			telefone = new JFormattedTextField(new MaskFormatter("(##)#####-####"));
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
@@ -97,6 +97,7 @@ public class TelaCadastroCliente extends TelaCadastro {
 		label = new JLabel("Cidade:");
 		painel.add(label);
 		cidade = new JTextField(20);
+		cidade.setText("Feira de Santana");
 		painel.add(cidade);
 
 		//cria campo de rua
@@ -137,7 +138,7 @@ public class TelaCadastroCliente extends TelaCadastro {
 			rua.setText("");
 			bairro.setText("");
 			telefone.setText("");
-			cidade.setText("");
+			cidade.setText("Feira de Santana");
 			NumdaCasa.setText("");
 			estado.setSelectedIndex(0);
 			sexo.setSelectedIndex(0);

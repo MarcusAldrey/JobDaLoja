@@ -98,7 +98,7 @@ public class TelaPrincipal extends JFrame{
 		url = this.getClass().getResource("iconePagamento.png");
 		icone = new ImageIcon(url);
 		JButton botaoPagamento = new JButton("     Pagamentos", icone);
-		botaoPagamento.addActionListener(new SairAction());
+		botaoPagamento.addActionListener(new PagamentoAction());
 
 		//insere os botões no frame
 		this.add(botaoCliente);
@@ -131,6 +131,15 @@ public class TelaPrincipal extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent evento) {
 			new TelaVencimentos();
+		}
+
+	}
+	
+	public class PagamentoAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent evento) {
+			new TelaPagamentos();
 		}
 
 	}
