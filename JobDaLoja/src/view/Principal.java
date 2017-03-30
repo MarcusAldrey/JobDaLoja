@@ -17,8 +17,8 @@ public class Principal {
 		Image iconeTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		telaPrincipal.setIconImage(iconeTitulo);
 		telaPrincipal.setBackground(Color.black);
-		int largura = 450;
-		int altura = 600;
+		int largura = 500;
+		int altura = 450;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screen.width-largura)/2;
 		int y = (screen.height-altura)/2;

@@ -1,8 +1,5 @@
 package view;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,14 +61,14 @@ public class TelaPrincipal extends JFrame{
 		this.setJMenuBar(barraDeMenu);
 
 		//insere os menus com itens na barra de menu
-		barraDeMenu.add(menuArquivo);
-		barraDeMenu.add(menuVencimento);
+		//barraDeMenu.add(menuArquivo);
+		//barraDeMenu.add(menuVencimento);
 
 	}
 
 	public void criarpainelBotoes() {
 
-		this.setLayout(new FlowLayout(1,200,50));
+		this.setLayout(new FlowLayout(1,50,50));
 
 		//Cria botão de cadastro de cliente
 		url = this.getClass().getResource("iconeCliente.png");
@@ -82,25 +79,32 @@ public class TelaPrincipal extends JFrame{
 		//Cria botão de nova compra
 		url = this.getClass().getResource("iconeCompra.png");
 		icone = new ImageIcon(url);
-		JButton botaoCompra = new JButton("     Nova compra", icone);
+		JButton botaoCompra = new JButton("    Nova compra", icone);
 		botaoCompra.addActionListener(new NovaCompraAction());
 
 		//Cria botão de visualizar vencimentos
 		url = this.getClass().getResource("iconeVencimento.png");
 		icone = new ImageIcon(url);
-		JButton botaoVencimentos = new JButton("     Vencimentos", icone);
+		JButton botaoVencimentos = new JButton("    Vencimentos", icone);
 		botaoVencimentos.addActionListener(new VisualizarVencimentosAction());
 		
-		//Cria botão de visualizar vencimentos
+		//Cria botão de sair
 		url = this.getClass().getResource("iconeSair.png");
 		icone = new ImageIcon(url);
-		JButton botaoSair = new JButton("       Fechar       ", icone);
+		JButton botaoSair = new JButton("   Fechar       ", icone);
 		botaoSair.addActionListener(new SairAction());
+		
+		//Cria item de pagamento
+		url = this.getClass().getResource("iconePagamento.png");
+		icone = new ImageIcon(url);
+		JButton botaoPagamento = new JButton("     Pagamentos", icone);
+		botaoPagamento.addActionListener(new SairAction());
 
 		//insere os botões no frame
 		this.add(botaoCliente);
 		this.add(botaoCompra);	
 		this.add(botaoVencimentos);
+		this.add(botaoPagamento);
 		this.add(botaoSair);
 	}
 
@@ -117,9 +121,7 @@ public class TelaPrincipal extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
-			URL url = getClass().getResource("Gato.wav");
-			AudioClip audio = Applet.newAudioClip(url);
-			audio.play();
+			
 			new TelaNovaCompra();
 		}
 	}
