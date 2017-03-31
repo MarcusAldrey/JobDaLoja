@@ -8,8 +8,11 @@ public class DataBase {
 	
 	private Connection con;
 	public Connection getConnection() throws SQLException, ClassNotFoundException {
-		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:lavictoria.db");
+		
+		if(con == null) {
+			Class.forName("org.sqlite.JDBC");
+			con = DriverManager.getConnection("jdbc:sqlite:lavictoria.db");
+		}
 		return con;
-	}
+	}	
 }
