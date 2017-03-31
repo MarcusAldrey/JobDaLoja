@@ -1,6 +1,7 @@
 package model;
 
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.List;
 
 public class Compra {
@@ -9,7 +10,7 @@ public class Compra {
 	private int id;
 	private Cliente comprador;
 	private List<Produto> produtos;
-	private Date date;
+	private Date dataDaCompra;
 	private float valorTotal;
 	private Date dataDeVencimento;
 	private boolean paga;
@@ -67,17 +68,17 @@ public class Compra {
 	}
 
 	/**
-	 * @return the date
+	 * @return the dataDaCompra
 	 */
 	public Date getDate() {
-		return date;
+		return dataDaCompra;
 	}
 
 	/**
-	 * @param date the date to set
+	 * @param dataDaCompra the dataDaCompra to set
 	 */
 	public void setDate(Date date) {
-		this.date = date;
+		this.dataDaCompra = date;
 	}
 
 	/**
