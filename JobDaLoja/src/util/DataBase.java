@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class DataBase {
 	
-	private Connection con;
-	public Connection getConnection() throws SQLException, ClassNotFoundException {
+	private static Connection con;
+	public static Connection getConnection() throws SQLException, ClassNotFoundException {
 		
 		if(con == null) {
 			Class.forName("org.sqlite.JDBC");
