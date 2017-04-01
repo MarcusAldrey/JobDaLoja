@@ -11,7 +11,7 @@ public class DataBase {
 		
 		if(con == null) {
 			Class.forName("org.sqlite.JDBC");
-			con = DriverManager.getConnection("jdbc:sqlite:lavictoria.db");
+			con = DriverManager.getConnection("jdbc:sqlite:C:/Users/DIOGO PC/Desktop/La Victoria.db");
 		}
 		return con;
 	}	

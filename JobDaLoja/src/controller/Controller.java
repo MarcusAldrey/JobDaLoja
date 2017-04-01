@@ -13,18 +13,10 @@ import util.DataBase;
 
 public class Controller {
 	
-	private Connection con;
-	private static Controller singleton;
-	
-	private Controller() throws ClassNotFoundException, SQLException {
+	private static Connection con;
+		
+	public Controller() throws ClassNotFoundException, SQLException {
 		con = DataBase.getConnection();
-	}
-	
-	public static Controller getController() throws ClassNotFoundException, SQLException {
-		if(singleton == null) {
-			singleton = new Controller();
-		}
-		return singleton;
 	}
 	
 	public void cadastrarCliente(String nome, String telefone, String CPF, String Estado, String cidade, String bairro, String rua, int numero) throws ClassNotFoundException, SQLException {
@@ -44,14 +36,16 @@ public class Controller {
 		
 	}
 	
-	public Cliente getCliente(String CPF) {
-		return null;		
+	public ResultSet getCliente(String CPF) throws SQLException {
+		Statement clientes = con.createStatement();
+		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone FROM Clientes");
+		return rs;		
 	}
 	
-	public ResultSet getClientes() throws ClassNotFoundException, SQLException {
+	public static ResultSet getClientes() throws ClassNotFoundException, SQLException {
 		Connection con = DataBase.getConnection();
 		Statement statement = con.createStatement();
-		ResultSet rs = statement.executeQuery("SELECT nome, CPF FROM Users");
+		ResultSet rs = statement.executeQuery("SELECT Nome, CPF, Telefone FROM Clientes");
 		return rs;
 	}
 	

@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 @SuppressWarnings("serial")
@@ -130,7 +132,7 @@ public class TelaPrincipal extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
-			new TelaVencimentos();
+			
 		}
 
 	}
@@ -139,7 +141,15 @@ public class TelaPrincipal extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
-			new TelaPagamentos();
+			try {
+				new TelaListarClientes();
+			} catch (ClassNotFoundException e) {
+				JOptionPane.showMessageDialog(null, "Erro catastrófico");
+				e.printStackTrace();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Ocorreu um erro ao tentar acessar o banco de dados");
+				e.printStackTrace();
+			}
 		}
 
 	}
