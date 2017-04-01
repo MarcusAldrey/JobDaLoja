@@ -20,7 +20,7 @@ public class Controller {
 	}
 	
 	public void cadastrarCliente(String nome, String telefone, String CPF, String Estado, String cidade, String bairro, String rua, int numero) throws ClassNotFoundException, SQLException {
-		Statement user = con.prepareStatement("INSERT INTO Users Values (?,?,?)");
+		Statement user = con.prepareStatement("INSERT INTO Clientes Values (?,?,?)");
 		Statement adress = con.prepareStatement("INSERT INTO Adresses Values (?,?,?,?,?");
 	}
 	
@@ -36,9 +36,10 @@ public class Controller {
 		
 	}
 	
-	public ResultSet getCliente(String CPF) throws SQLException {
+	public static ResultSet getCliente(String CPF) throws SQLException, ClassNotFoundException {
+		Connection con = DataBase.getConnection();
 		Statement clientes = con.createStatement();
-		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone FROM Clientes");
+		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone FROM Clientes WHERE CPF='" + CPF + "'");
 		return rs;		
 	}
 	

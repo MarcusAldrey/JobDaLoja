@@ -3,9 +3,11 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -87,6 +89,7 @@ public class TelaListarClientes extends JPanel {
 		Font cabecalho = new Font("SansSerif", Font.BOLD + Font.ITALIC, 12);
 		table.getTableHeader().setFont(cabecalho);
 		table.setRowSelectionAllowed(true);
+		table.setRowHeight(20);
 		table.setDefaultEditor(Object.class, null);
 		scrollPane.setViewportView(table);
 
@@ -142,6 +145,9 @@ public class TelaListarClientes extends JPanel {
 		janela.setVisible(true);
 		janela.getContentPane().add(this);
 		janela.setTitle("La Victoria - Procurar cliente");
+		URL url = getClass().getResource("logo.jpg"); 
+		Image iconeTitulo = Toolkit.getDefaultToolkit().getImage(url);
+		janela.setIconImage(iconeTitulo);
 	}
 
 	private void updateTable(String value) throws ClassNotFoundException, SQLException {
@@ -170,6 +176,7 @@ public class TelaListarClientes extends JPanel {
 		Font cabecalho = new Font("SansSerif", Font.BOLD + Font.ITALIC, 12);
 		table.getTableHeader().setFont(cabecalho);
 		table.setRowSelectionAllowed(true);
+		table.setRowHeight(20);
 		table.setDefaultEditor(Object.class, null);
 		if(scrollPane != null)
 			scrollPane.setViewportView(table);

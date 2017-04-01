@@ -114,7 +114,8 @@ public class TelaPrincipal extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
-			new TelaCadastroCliente();
+			TelaNovoCliente frame = new TelaNovoCliente();
+			frame.setVisible(true);
 		}
 
 	}
@@ -124,7 +125,6 @@ public class TelaPrincipal extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent evento) {
 			
-			new TelaNovaCompra();
 		}
 	}
 
@@ -132,7 +132,19 @@ public class TelaPrincipal extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
-			
+			TelaCliente frame = null;
+			try {
+				try {
+					frame = new TelaCliente("6891886503");
+				} catch (ClassNotFoundException e) {
+					JOptionPane.showMessageDialog(null, "JDBC não instalado");
+					e.printStackTrace();
+				}
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Ocorreu um erro ao tentar acessar o banco de dados");
+				e.printStackTrace();
+			}
+			frame.setVisible(true);
 		}
 
 	}
@@ -144,7 +156,7 @@ public class TelaPrincipal extends JFrame{
 			try {
 				new TelaListarClientes();
 			} catch (ClassNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "Erro catastrófico");
+				JOptionPane.showMessageDialog(null, "JDBC não instalado");
 				e.printStackTrace();
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Ocorreu um erro ao tentar acessar o banco de dados");
