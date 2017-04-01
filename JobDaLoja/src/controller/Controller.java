@@ -49,6 +49,13 @@ public class Controller {
 		return rs;
 	}
 	
+	public static ResultSet getClientes(String value) throws ClassNotFoundException, SQLException {
+		Connection con = DataBase.getConnection();
+		Statement statement = con.createStatement();
+		ResultSet rs = statement.executeQuery("SELECT Nome, CPF, Telefone FROM Clientes WHERE Nome LIKE '" + value + "%'");
+		return rs;
+	}
+	
 	public Compra getCompra(int id) {
 		return null;
 	}
