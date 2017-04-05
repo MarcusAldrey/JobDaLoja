@@ -17,12 +17,12 @@ public class Principal {
 		Image iconeTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		telaPrincipal.setIconImage(iconeTitulo);
 		telaPrincipal.setBackground(Color.black);
-		int largura = 500;
-		int altura = 450;
+		int largura = 600;
+		int altura = 400;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screen.width-largura)/2;
 		int y = (screen.height-altura)/2;
-		telaPrincipal.setSize(new Dimension(largura, altura));
+		telaPrincipal.setSize(new Dimension(altura, largura));
 		telaPrincipal.setResizable(false);
 		telaPrincipal.setLocation(x, y);
 		SplashScreen splash = new SplashScreen(5000);

@@ -45,7 +45,7 @@ public class TelaCliente extends JFrame {
 		int y = (screen.height-altura)/2;
 		setBounds(x,y,largura,altura);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.LIGHT_GRAY);
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

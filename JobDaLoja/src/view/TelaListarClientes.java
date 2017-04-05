@@ -28,6 +28,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import controller.Controller;
+import javax.swing.border.TitledBorder;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 
 public class TelaListarClientes extends JPanel {
@@ -41,6 +44,7 @@ public class TelaListarClientes extends JPanel {
 	Object[][] valores;
 	ResultSet rs;
 	JScrollPane scrollPane;
+	private JLabel lblNenhumClienteEncontrado;
 
 	/**
 	 * Create the panel.
@@ -48,22 +52,25 @@ public class TelaListarClientes extends JPanel {
 	 * @throws ClassNotFoundException 
 	 */
 	public TelaListarClientes() throws ClassNotFoundException, SQLException {
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(Color.WHITE);
 		setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Nome/CPF:");
-		lblNewLabel.setBounds(10, 44, 59, 14);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel.setBounds(10, 44, 71, 14);
 		add(lblNewLabel);
 
 		JRadioButton rdbtnProcuraPorNome = new JRadioButton("Procura por nome");
-		rdbtnProcuraPorNome.setBackground(Color.LIGHT_GRAY);
+		rdbtnProcuraPorNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		rdbtnProcuraPorNome.setBackground(Color.WHITE);
 		rdbtnProcuraPorNome.setSelected(true);
-		rdbtnProcuraPorNome.setBounds(79, 11, 111, 23);
+		rdbtnProcuraPorNome.setBounds(91, 11, 123, 23);
 		add(rdbtnProcuraPorNome);
 
 		JRadioButton rdbtnProcurarPorCPF = new JRadioButton("Procura por CPF");
-		rdbtnProcurarPorCPF.setBackground(Color.LIGHT_GRAY);
-		rdbtnProcurarPorCPF.setBounds(192, 11, 109, 23);
+		rdbtnProcurarPorCPF.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		rdbtnProcurarPorCPF.setBackground(Color.WHITE);
+		rdbtnProcurarPorCPF.setBounds(216, 11, 113, 23);
 		add(rdbtnProcurarPorCPF);
 
 		ButtonGroup buttonGroup = new ButtonGroup();
@@ -72,22 +79,22 @@ public class TelaListarClientes extends JPanel {
 
 		updateTable(null);
 
-		JButton btnNewButton = new JButton("Voltar");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				janela.dispose();
-			}
-		});
-		btnNewButton.setBounds(10, 312, 137, 38);
-		add(btnNewButton);
-
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 69, 564, 232);
+		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPane.setBounds(10, 69, 564, 210);
 		add(scrollPane);
+		
+		lblNenhumClienteEncontrado = new JLabel("Nenhum cliente encontrado");
+		lblNenhumClienteEncontrado.setEnabled(false);
+		lblNenhumClienteEncontrado.setHorizontalAlignment(SwingConstants.CENTER);
+		scrollPane.setColumnHeaderView(lblNenhumClienteEncontrado);
+		
 		updateTable(null);
 
 		textFieldNomeCPF = new JTextField();
-		textFieldNomeCPF.setBounds(68, 41, 506, 20);
+		textFieldNomeCPF.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textFieldNomeCPF.setToolTipText("");
+		textFieldNomeCPF.setBounds(91, 41, 233, 20);
 		add(textFieldNomeCPF);
 		textFieldNomeCPF.setColumns(10);
 		textFieldNomeCPF.getDocument().addDocumentListener(new DocumentListener() {
@@ -127,6 +134,7 @@ public class TelaListarClientes extends JPanel {
 		});
 
 		janela = new JDialog();
+		janela.getContentPane().setBackground(Color.WHITE);
 		int largura = 600;
 		int altura = 400;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -135,6 +143,19 @@ public class TelaListarClientes extends JPanel {
 		janela.setBounds(x,y,largura,altura);
 		janela.setVisible(true);
 		janela.getContentPane().add(this);
+
+		JButton button = new JButton("Voltar");
+		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		button.setIcon(new ImageIcon(TelaListarClientes.class.getResource("/view/iconesair (1).png")));
+		button.setBounds(404, 300, 170, 50);
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				janela.dispose();				
+			}
+		});
+		add(button);
 
 		janela.setTitle("La Victoria - Procurar cliente");
 		URL url = getClass().getResource("logo.jpg"); 
@@ -163,6 +184,12 @@ public class TelaListarClientes extends JPanel {
 			cont++;
 		}
 		String[] columnNames = {"Nome", "CPF", "Telefone"};
+		if(cont == 0) {
+			columnNames[0] = "";
+			columnNames[1] = "Nenhum cliente encontrado";
+			columnNames[2] = "";
+			table.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		}
 		table = new JTable(valores,columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		Font cabecalho = new Font("SansSerif", Font.BOLD + Font.ITALIC, 12);
@@ -170,6 +197,7 @@ public class TelaListarClientes extends JPanel {
 		table.setRowSelectionAllowed(true);
 		table.setRowHeight(20);
 		table.setDefaultEditor(Object.class, null);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		if(scrollPane != null)
 			scrollPane.setViewportView(table);
 
@@ -190,6 +218,7 @@ public class TelaListarClientes extends JPanel {
 						e1.printStackTrace();
 					}
 					frame.setVisible(true);
+					janela.dispose();
 				}
 			}
 		});

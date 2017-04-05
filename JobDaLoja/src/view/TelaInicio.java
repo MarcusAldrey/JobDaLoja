@@ -1,6 +1,7 @@
 package view;
 
-import java.awt.FlowLayout;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -9,103 +10,95 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import java.awt.Dimension;
 
-@SuppressWarnings("serial")
+public class TelaInicio extends JFrame {
 
-public class TelaPrincipal extends JFrame{
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
 	URL url;
 	ImageIcon icone;
 
-	public TelaPrincipal() {
-		super("La Victoria");
-		criarMenu();
-		criarpainelBotoes();
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TelaInicio frame = new TelaInicio();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
-	public void criarMenu() {
-
+	/**
+	 * Create the frame.
+	 */
+	public TelaInicio() {
+		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaInicio.class.getResource("/view/logo.jpg")));
+		setTitle("La Victoria Boutique");
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		JMenu menuArquivo = new JMenu("Cadastrar");
-
-		//Cria item de cadastro de cliente
-		JMenuItem menuItemCliente = new JMenuItem("Cliente", icone);
-		menuItemCliente.addActionListener(new CadastroClienteAction());
-		menuArquivo.add(menuItemCliente);
-	
-		//Cria menu de consulta
-		JMenu menuVencimento = new JMenu("Vencimentos");
-
-		//Cria item de nova consulta
-		JMenuItem menuItemVencimentos = new JMenuItem("Vencimentos", icone);
-		menuItemVencimentos.addActionListener(new VisualizarVencimentosAction());
-		menuVencimento.add(menuItemVencimentos);
-
-		menuArquivo.addSeparator();
-
-		//Cria item de sair
-		JMenuItem menuItemSair = new JMenuItem("Sair", icone);
-		menuItemSair.addActionListener(new SairAction());
-		menuArquivo.add(menuItemSair);
-
-		//Cria barra de menu
-		JMenuBar barraDeMenu = new JMenuBar();
-		this.setJMenuBar(barraDeMenu);
-
-		//insere os menus com itens na barra de menu
-		//barraDeMenu.add(menuArquivo);
-		//barraDeMenu.add(menuVencimento);
-
-	}
-
-	public void criarpainelBotoes() {
-
-		this.setLayout(new FlowLayout(100,100,50));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (screen.width-400)/2;
+		int y = (screen.height-600)/2;
+		setBounds(x, y, 400, 600);
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
 
 		//Cria botão de cadastro de cliente
 		url = this.getClass().getResource("iconeCliente.png");
 		icone = new ImageIcon(url);
-		JButton botaoCliente = new JButton("    Novo cliente", icone);
-		botaoCliente.addActionListener(new CadastroClienteAction());
 
 		//Cria botão de procurar cliente
 		url = this.getClass().getResource("1491380374_magnifyingglass.png");
 		icone = new ImageIcon(url);
-		JButton botaoCompra = new JButton("    Buscar cliente", icone);
-		botaoCompra.addActionListener(new ProcurarClienteAction());
 
 		//Cria botão de visualizar vencimentos
 		url = this.getClass().getResource("iconeVencimento.png");
 		icone = new ImageIcon(url);
-		JButton botaoVencimentos = new JButton("    Vencimentos", icone);
-		botaoVencimentos.addActionListener(new VisualizarVencimentosAction());
-		
+
 		//Cria botão de sair
 		url = this.getClass().getResource("iconeSair.png");
 		icone = new ImageIcon(url);
-		JButton botaoSair = new JButton("   Fechar       ", icone);
+		JButton botaoCliente = new JButton("Novo cliente", new ImageIcon(TelaInicio.class.getResource("/view/iconeCliente.png")));
+		botaoCliente.setBounds(100, 156, 200, 70);
+		botaoCliente.addActionListener(new CadastroClienteAction());
+		JButton botaoSair = new JButton("     Fechar   ", icone);
+		botaoSair.setBounds(100, 396, 200, 70);
 		botaoSair.addActionListener(new SairAction());
-		
-		
-		
-
-		//insere os botões no frame
-		this.add(botaoCliente);
-		this.add(botaoCompra);	
-		this.add(botaoVencimentos);
-		this.add(botaoSair);
+		contentPane.setLayout(null);
+		contentPane.add(botaoSair);
+		contentPane.add(botaoCliente);
+		JButton botaoBuscarCliente = new JButton("Buscar cliente", new ImageIcon(TelaInicio.class.getResource("/view/1491380374_magnifyingglass.png")));
+		botaoBuscarCliente.setBounds(100, 236, 200, 70);
+		botaoBuscarCliente.addActionListener(new ProcurarClienteAction());
+		contentPane.add(botaoBuscarCliente);
+		JButton botaoVencimentos = new JButton("Vencimentos", new ImageIcon(TelaInicio.class.getResource("/view/iconeVencimento.png")));
+		botaoVencimentos.setBounds(100, 316, 200, 70);
+		botaoVencimentos.addActionListener(new VisualizarVencimentosAction());
+		contentPane.add(botaoVencimentos);
 	}
-
+	
 	private class CadastroClienteAction implements ActionListener {
 
 		@Override
@@ -170,5 +163,4 @@ public class TelaPrincipal extends JFrame{
 			System.exit(0);
 		}
 	}
-
 }
