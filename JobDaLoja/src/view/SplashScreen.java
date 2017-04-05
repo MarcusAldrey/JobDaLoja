@@ -12,7 +12,7 @@ import javax.swing.JWindow;
 @SuppressWarnings("serial")
 public class SplashScreen extends JWindow {
 
-	private int duracao; 
+	private int duracao;
 
 	public SplashScreen(int duracao) {
 		this.duracao = duracao;

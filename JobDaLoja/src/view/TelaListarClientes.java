@@ -10,22 +10,24 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
-import controller.Controller;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import controller.Controller;
 
 
 public class TelaListarClientes extends JPanel {
@@ -68,8 +70,6 @@ public class TelaListarClientes extends JPanel {
 		buttonGroup.add(rdbtnProcuraPorNome);
 		buttonGroup.add(rdbtnProcurarPorCPF);
 
-
-		String[] columnNames = {"Nome", "CPF", "Telefone"};
 		updateTable(null);
 
 		JButton btnNewButton = new JButton("Voltar");
@@ -78,20 +78,13 @@ public class TelaListarClientes extends JPanel {
 				janela.dispose();
 			}
 		});
-		btnNewButton.setBounds(10, 312, 111, 38);
+		btnNewButton.setBounds(10, 312, 137, 38);
 		add(btnNewButton);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 69, 564, 232);
 		add(scrollPane);
-		table = new JTable(valores,columnNames);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		Font cabecalho = new Font("SansSerif", Font.BOLD + Font.ITALIC, 12);
-		table.getTableHeader().setFont(cabecalho);
-		table.setRowSelectionAllowed(true);
-		table.setRowHeight(20);
-		table.setDefaultEditor(Object.class, null);
-		scrollPane.setViewportView(table);
+		updateTable(null);
 
 		textFieldNomeCPF = new JTextField();
 		textFieldNomeCPF.setBounds(68, 41, 506, 20);
@@ -104,10 +97,8 @@ public class TelaListarClientes extends JPanel {
 				try {
 					updateTable(textFieldNomeCPF.getText());
 				} catch (ClassNotFoundException e1) {
-					System.out.println("tem");
 					e1.printStackTrace();
 				} catch (SQLException e1) {
-					System.out.println("tem");
 					e1.printStackTrace();
 				}			
 			}
@@ -144,6 +135,7 @@ public class TelaListarClientes extends JPanel {
 		janela.setBounds(x,y,largura,altura);
 		janela.setVisible(true);
 		janela.getContentPane().add(this);
+
 		janela.setTitle("La Victoria - Procurar cliente");
 		URL url = getClass().getResource("logo.jpg"); 
 		Image iconeTitulo = Toolkit.getDefaultToolkit().getImage(url);
@@ -155,7 +147,7 @@ public class TelaListarClientes extends JPanel {
 			rs = Controller.getClientes();
 		else
 			rs = Controller.getClientes(value);	
-		
+
 		int count = 0;
 		while (rs.next())
 			++count;
@@ -180,5 +172,31 @@ public class TelaListarClientes extends JPanel {
 		table.setDefaultEditor(Object.class, null);
 		if(scrollPane != null)
 			scrollPane.setViewportView(table);
+
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(e.getValueIsAdjusting()) {
+					String cpfDoCliente = table.getValueAt(table.getSelectedRow(), 1).toString();
+					JFrame frame = null;
+					try {
+						frame = new TelaCliente(cpfDoCliente);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					frame.setVisible(true);
+				}
+			}
+		});
 	}
 }
+
+
+
+
+
