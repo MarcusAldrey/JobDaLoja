@@ -5,12 +5,16 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import controller.Controller;
 
 public class Principal {
 			
-	public void criarTela() {
+	public void criarTela() throws ClassNotFoundException, SQLException {
 		TelaPrincipal telaPrincipal = new TelaPrincipal();
 		telaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		URL url = this.getClass().getResource("logo.jpg"); 
@@ -27,10 +31,19 @@ public class Principal {
 		telaPrincipal.setLocation(x, y);
 		SplashScreen splash = new SplashScreen(5000);
 		splash.mostrarSplashESair();
-		telaPrincipal.setVisible(true);	
+		telaPrincipal.setVisible(true);
+		new Controller();
 	}
 
 	public static void main(String[] args) {
-		new Principal().criarTela();
+		try {
+			new Principal().criarTela();
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBC não instalado");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Arquivo de banco de dados não encontrado");
+			e.printStackTrace();
+		}
 	}
 }

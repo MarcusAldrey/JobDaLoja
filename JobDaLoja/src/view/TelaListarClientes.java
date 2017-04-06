@@ -184,13 +184,14 @@ public class TelaListarClientes extends JPanel {
 			cont++;
 		}
 		String[] columnNames = {"Nome", "CPF", "Telefone"};
+		table = new JTable(valores,columnNames);
 		if(cont == 0) {
 			columnNames[0] = "";
 			columnNames[1] = "Nenhum cliente encontrado";
 			columnNames[2] = "";
+			table = new JTable(valores,columnNames);
 			table.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		}
-		table = new JTable(valores,columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		Font cabecalho = new Font("SansSerif", Font.BOLD + Font.ITALIC, 12);
 		table.getTableHeader().setFont(cabecalho);

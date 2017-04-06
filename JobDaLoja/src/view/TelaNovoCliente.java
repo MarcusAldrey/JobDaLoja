@@ -1,26 +1,34 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.Color;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
+import javax.swing.text.MaskFormatter;
+
+import org.omg.CORBA.DATA_CONVERSION;
+
+import controller.Controller;
 
 public class TelaNovoCliente extends JFrame {
 
@@ -29,15 +37,16 @@ public class TelaNovoCliente extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txtNome;
 	private JFormattedTextField cpf_1;
 	private JFormattedTextField telefone_1;
-	private JTextField txtFeiraDeSantana;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtCidade;
+	private JTextField textRua;
+	private JTextField textBairro;
+	private JTextField textNumero;
 	private JFormattedTextField dataDeNascimento_1;
-	private JTextField textField_4;
+	private JTextField txtddd;
+	JComboBox<String> comboBoxEstado;
 
 	/**
 	 * Create the frame.
@@ -121,50 +130,50 @@ public class TelaNovoCliente extends JFrame {
 		lblRua.setBounds(10, 232, 46, 14);
 		contentPane.add(lblRua);
 		
-		txtFeiraDeSantana = new JTextField();
-		txtFeiraDeSantana.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtFeiraDeSantana.setText("Feira de Santana");
-		txtFeiraDeSantana.setBounds(61, 179, 100, 20);
-		contentPane.add(txtFeiraDeSantana);
-		txtFeiraDeSantana.setColumns(10);
+		txtCidade = new JTextField();
+		txtCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtCidade.setText("Feira de Santana");
+		txtCidade.setBounds(61, 179, 100, 20);
+		contentPane.add(txtCidade);
+		txtCidade.setColumns(10);
 		
 		String[] estados = {"AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RO", "RS", "RR", "SC", "SE", "SP", "TO"};
 
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		comboBox.setBounds(225, 179, 40, 20);
+		comboBoxEstado = new JComboBox<String>();
+		comboBoxEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		comboBoxEstado.setBounds(225, 179, 40, 20);
 		for(String estado : estados)
-			comboBox.addItem(estado);
-		comboBox.setSelectedIndex(4);
-		contentPane.add(comboBox);
+			comboBoxEstado.addItem(estado);
+		comboBoxEstado.setSelectedIndex(4);
+		contentPane.add(comboBoxEstado);
 		
 		JLabel lblEstado = new JLabel("Estado:");
 		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblEstado.setBounds(180, 182, 46, 14);
 		contentPane.add(lblEstado);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		textField_1.setColumns(10);
-		textField_1.setBounds(61, 229, 100, 20);
-		contentPane.add(textField_1);
+		textRua = new JTextField();
+		textRua.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textRua.setColumns(10);
+		textRua.setBounds(61, 229, 100, 20);
+		contentPane.add(textRua);
 		
 		JLabel lblBairro = new JLabel("Bairro:");
 		lblBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblBairro.setBounds(10, 207, 46, 14);
 		contentPane.add(lblBairro);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		textField_2.setColumns(10);
-		textField_2.setBounds(61, 204, 100, 20);
-		contentPane.add(textField_2);
+		textBairro = new JTextField();
+		textBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textBairro.setColumns(10);
+		textBairro.setBounds(61, 204, 100, 20);
+		contentPane.add(textBairro);
 		
-		textField_3 = new JTextField();
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		textField_3.setBounds(225, 204, 65, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		textNumero = new JTextField();
+		textNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textNumero.setBounds(225, 204, 65, 20);
+		contentPane.add(textNumero);
+		textNumero.setColumns(10);
 		
 		JLabel lblN = new JLabel("N\u00BA:");
 		lblN.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -180,12 +189,14 @@ public class TelaNovoCliente extends JFrame {
 		btnLimparCampos.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLimparCampos.setIcon(new ImageIcon(TelaNovoCliente.class.getResource("/view/1491377312_flat_icons-grafiche (3).png")));
 		btnLimparCampos.setBounds(200, 294, 170, 50);
+		btnLimparCampos.addActionListener(new LimparAction());
 		contentPane.add(btnLimparCampos);
 		
 		JButton btnSalvarCliente = new JButton("Adicionar");
 		btnSalvarCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnSalvarCliente.setIcon(new ImageIcon(TelaNovoCliente.class.getResource("/view/iconeConfirmacao.png")));
 		btnSalvarCliente.setBounds(10, 294, 170, 50);
+		btnSalvarCliente.addActionListener(new AdicionarClienteAction());
 		contentPane.add(btnSalvarCliente);
 		
 		JButton btnVoltar = new JButton("Voltar");
@@ -196,6 +207,7 @@ public class TelaNovoCliente extends JFrame {
 			}
 		});
 		btnVoltar.setBounds(390, 294, 170, 50);
+		btnVoltar.addActionListener(new SairAction());
 		contentPane.add(btnVoltar);
 		
 		URL url = this.getClass().getResource("logo.jpg"); 
@@ -209,17 +221,71 @@ public class TelaNovoCliente extends JFrame {
 		setBounds(x,y,largura,altura);
 		setTitle("La Victoria - Novo Cliente");
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		textField.setBounds(65, 36, 295, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtNome = new JTextField();
+		txtNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtNome.setBounds(65, 36, 295, 20);
+		contentPane.add(txtNome);
+		txtNome.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		textField_4.setText("75");
-		textField_4.setBounds(65, 86, 22, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		txtddd = new JTextField();
+		txtddd.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtddd.setText("75");
+		txtddd.setBounds(65, 86, 22, 20);
+		contentPane.add(txtddd);
+		txtddd.setColumns(10);
+	}
+	
+	public class AdicionarClienteAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			try {
+				Controller.cadastrarCliente(txtNome.getText(),  txtddd.getText() + telefone_1.getText(), cpf_1.getText(), comboBoxEstado.getSelectedItem().toString(), txtCidade.getText(), textBairro.getText(), textRua.getText(), Integer.parseInt(textNumero.getText()), dataDeNascimento_1.getText());
+			} catch (NumberFormatException e1) {
+				JOptionPane.showMessageDialog(null, "Algum campo foi preenchido incorretamente");
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				JOptionPane.showMessageDialog(null, "JDBC não instalado");
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(null, "Não foi possível acessar o banco de dados");
+				e1.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
+			fecharTela();
+		}
+		
+	}
+	
+	public class SairAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			fecharTela();			
+		}
+		
+	}
+	
+	public class LimparAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			txtNome.setText("");
+			cpf_1.setText("");
+			telefone_1.setText("");
+			txtddd.setText("");
+			textBairro.setText("");
+			textNumero.setText("");
+			textRua.setText("");
+			txtCidade.setText("");
+			dataDeNascimento_1.setText("");
+			comboBoxEstado.setSelectedIndex(4);
+		}
+		
+	}
+	
+	private void fecharTela() {
+		this.dispose();		
 	}
 }

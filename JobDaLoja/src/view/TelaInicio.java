@@ -14,6 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+
+import controller.Controller;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -31,6 +34,16 @@ public class TelaInicio extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			new Controller();
+		} catch (ClassNotFoundException e1) {
+			JOptionPane.showMessageDialog(null, "JDBC não instalado");
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, "Arquivo de banco de dados não encontrado");
+			e1.printStackTrace();
+			return;
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
