@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -19,6 +20,14 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JToggleButton;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.ImageIcon;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class TelaCliente extends JFrame {
 
@@ -39,8 +48,8 @@ public class TelaCliente extends JFrame {
 		this.setIconImage(iconeTitulo);		
 		setResizable(false);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		int largura = 600;
-		int altura = 400;
+		int largura = 700;
+		int altura = 500;
 		int x = (screen.width-largura)/2;
 		int y = (screen.height-altura)/2;
 		setBounds(x,y,largura,altura);
@@ -90,36 +99,95 @@ public class TelaCliente extends JFrame {
 		
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEndereo.setBounds(10, 105, 115, 16);
+		lblEndereo.setBounds(10, 127, 115, 16);
 		contentPane.add(lblEndereo);
-		
-		JLabel label = new JLabel("(xx) 9xxxx-xxxx");
-		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label.setBounds(84, 105, 115, 16);
-		contentPane.add(label);
 		
 		JLabel lblCompras = new JLabel("Compras");
 		lblCompras.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCompras.setBounds(10, 130, 77, 16);
+		lblCompras.setBounds(10, 171, 77, 16);
 		contentPane.add(lblCompras);
 		
 		JButton btnNewButton = new JButton("Voltar");
+		btnNewButton.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/iconesair (1).png")));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
 		
-		btnNewButton.setBounds(10, 312, 111, 38);
+		btnNewButton.setBounds(204, 410, 170, 50);
 		getContentPane().add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 157, 574, 143);
+		scrollPane.setBounds(10, 198, 364, 201);
 		contentPane.add(scrollPane);
 		
 		JButton btnNovaCompra = new JButton("Nova Compra");
-		btnNovaCompra.setBounds(150, 312, 111, 38);
+		btnNovaCompra.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/iconeCompra.png")));
+		btnNovaCompra.setBounds(10, 410, 170, 50);
+		btnNovaCompra.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JFrame frame = null;
+				try {
+					frame = new TelaNovaCompra(rs.getString(2));
+				} catch (SQLException | ClassNotFoundException e1) {
+					JOptionPane.showMessageDialog(null, "Não foi possível acessar o bando de dados");
+					e1.printStackTrace();
+				}
+				frame.setVisible(true);
+			}
+		});
 		contentPane.add(btnNovaCompra);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(384, 12, 300, 448);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Detalhes da compra");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setBounds(85, 11, 130, 14);
+		panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Produtos Comprados");
+		lblNewLabel_1.setBounds(10, 37, 100, 14);
+		panel.add(lblNewLabel_1);
+		
+		JLabel lblParcelas = new JLabel("Parcelas");
+		lblParcelas.setBounds(10, 236, 100, 14);
+		panel.add(lblParcelas);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 261, 280, 176);
+		panel.add(scrollPane_1);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(10, 62, 280, 162);
+		panel.add(scrollPane_2);
+		
+		JLabel lblAniversrio = new JLabel("Anivers\u00E1rio:");
+		lblAniversrio.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblAniversrio.setBounds(10, 105, 91, 16);
+		contentPane.add(lblAniversrio);
+		
+		JLabel niverTxt = new JLabel(Controller.converterSqlToPad(rs.getString(4)));
+		niverTxt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		niverTxt.setBounds(97, 105, 115, 16);
+		contentPane.add(niverTxt);
+		
+		JLabel label_1 = new JLabel((String) null);
+		label_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		label_1.setBounds(95, 105, 115, 16);
+		contentPane.add(label_1);
+		
+		JLabel label = new JLabel((String) null);
+		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		label.setBounds(105, 108, 115, 16);
+		contentPane.add(label);
 		this.setTitle("La Victoria - Informações de cliente");
 	}
 }

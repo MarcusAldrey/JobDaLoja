@@ -20,17 +20,12 @@ public class Controller {
 	}
 	
 	public static void cadastrarCliente(String nome, String telefone, String CPF, String estado, String cidade, String bairro, String rua, int numero, String dataDeNascimento) throws ClassNotFoundException, SQLException {
-		String dia = dataDeNascimento.substring(0, 2);
-		String mes = dataDeNascimento.substring(3,5);
-		String ano = dataDeNascimento.substring(6,10);
-		String dataFormatada = ano + "-" + mes + "-" + dia;
-		Date dataSql = Date.valueOf(dataFormatada);	
-			
+		
 		PreparedStatement user = con.prepareStatement("INSERT INTO Clientes VALUES (?,?,?,?)");
 		user.setString(1, nome);
 		user.setString(2, CPF);
 		user.setString(3, telefone);
-		user.setDate(4, dataSql);
+		user.setString(4, converterPadToSql(dataDeNascimento));
 		user.execute();
 	}
 	
@@ -48,11 +43,12 @@ public class Controller {
 	
 	public static ResultSet getCliente(String CPF) throws SQLException, ClassNotFoundException {
 		Statement clientes = con.createStatement();
-		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone FROM Clientes WHERE CPF='" + CPF + "'");
+		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone, DataDeNascimento FROM Clientes WHERE CPF='" + CPF + "'");
 		return rs;		
 	}
 	
 	public static ResultSet getClientes() throws ClassNotFoundException, SQLException {
+		new Controller();
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery("SELECT Nome, CPF, Telefone FROM Clientes");
 		return rs;
@@ -83,6 +79,31 @@ public class Controller {
 	
 	public List<Compra> getComprasVencidas() {
 		return null;
+	}
+	
+	public static String converterPadToSql(String data) {
+		String dia = data.substring(0, 2);
+		String mes = data.substring(3,5);
+		String ano = data.substring(6,10);
+		String dataFormatada = ano + "-" + mes + "-" + dia;
+		return dataFormatada;
+	}
+	
+	public static String converterSqlToPad(String data) {
+		String dataDeNascimento = data;
+		String ano = dataDeNascimento.substring(0, 4);
+		String mes = dataDeNascimento.substring(5,7);
+		String dia = dataDeNascimento.substring(8,10);
+		
+		String dataFormatada = dia + "/" + mes + "/" + ano;
+		return dataFormatada;
+	}
+
+	public static ResultSet getCompras(String cPF) throws SQLException {
+		// TODO Auto-generated method stub
+		Statement compras = con.createStatement();
+		ResultSet rs = compras.executeQuery("SELECT rowid, Data, QtdParcelas, ValorTotal FROM Compras WHERE CPFComprador='" + cPF + "'");
+		return rs;
 	}
 	
 }

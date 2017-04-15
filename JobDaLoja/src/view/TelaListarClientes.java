@@ -41,9 +41,9 @@ public class TelaListarClientes extends JPanel {
 	private JTable table;
 	private JTextField textFieldNomeCPF;
 	private JDialog janela;
-	Object[][] valores;
-	ResultSet rs;
-	JScrollPane scrollPane;
+	private Object[][] valores;
+	private ResultSet rs;
+	private JScrollPane scrollPane;
 	private JLabel lblNenhumClienteEncontrado;
 
 	/**

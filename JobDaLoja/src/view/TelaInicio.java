@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -16,9 +18,6 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
-
-import java.awt.Color;
-import java.awt.Dimension;
 
 public class TelaInicio extends JFrame {
 
@@ -135,18 +134,7 @@ public class TelaInicio extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
-			TelaCliente frame = null;
-			try {
-				try {
-					frame = new TelaCliente("6891886503");
-				} catch (ClassNotFoundException e) {
-					JOptionPane.showMessageDialog(null, "JDBC não instalado");
-					e.printStackTrace();
-				}
-			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "Ocorreu um erro ao tentar acessar o banco de dados");
-				e.printStackTrace();
-			}
+			TelaVencimentos frame = new TelaVencimentos();
 			frame.setVisible(true);
 		}
 
