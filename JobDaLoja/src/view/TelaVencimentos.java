@@ -17,10 +17,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class TelaVencimentos extends JFrame {
 
 	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Create the frame.
@@ -74,10 +78,11 @@ public class TelaVencimentos extends JFrame {
 		lblOu.setBounds(10, 65, 46, 14);
 		contentPane.add(lblOu);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(6, 116, 678, 344);
+		contentPane.add(scrollPane);
 		
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(10, 116, 674, 344);
-		contentPane.add(textArea);
+		table = new JTable();
+		scrollPane.setViewportView(table);
 	}
 }

@@ -123,7 +123,7 @@ public class TelaCliente extends JFrame {
 		contentPane.add(scrollPane);
 		
 		JButton btnNovaCompra = new JButton("Nova Compra");
-		btnNovaCompra.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/iconeCompra.png")));
+		btnNovaCompra.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/rsz_iconecompra.png")));
 		btnNovaCompra.setBounds(10, 410, 170, 50);
 		btnNovaCompra.addActionListener(new ActionListener() {
 			
@@ -154,11 +154,11 @@ public class TelaCliente extends JFrame {
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Produtos Comprados");
-		lblNewLabel_1.setBounds(10, 37, 100, 14);
+		lblNewLabel_1.setBounds(10, 236, 100, 14);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblParcelas = new JLabel("Parcelas");
-		lblParcelas.setBounds(10, 236, 100, 14);
+		lblParcelas.setBounds(10, 37, 100, 14);
 		panel.add(lblParcelas);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();

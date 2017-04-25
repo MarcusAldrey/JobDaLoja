@@ -68,7 +68,7 @@ public class TelaNovaCompra extends JFrame {
 		scrollPane.setBounds(10, 42, 550, 214);
 		contentPane.add(scrollPane);
 		
-		valoresDaTabela = new Object[][] {null};
+		valoresDaTabela = new Object[][] {null, null, null, null};
 		
 		table = new JTable(1, 4);
 		table.setModel(new DefaultTableModel(valoresDaTabela, new String[] {"Quantidade", "Produto", "Valor", "Valor total"}));
