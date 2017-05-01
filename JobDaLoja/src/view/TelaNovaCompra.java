@@ -7,6 +7,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,6 +45,9 @@ public class TelaNovaCompra extends JFrame {
 	JPanel painelInterno;
 	JComboBox<?> comboBoxParcelas;
 	int currenty = 33;
+	int currentLine = 1;
+	private JTextField caixaDesconto;
+	Object[][] produtos;
 
 	/**
 	 * Create the frame.
@@ -63,6 +69,8 @@ public class TelaNovaCompra extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
+		produtos = new Object[8][4];
 		
 		ResultSet rs = Controller.getCliente(CPF);
 		this.setTitle("Nova Compra - " + rs.getString(1));
@@ -93,12 +101,15 @@ public class TelaNovaCompra extends JFrame {
 		campoQuantidade.setText("1");
 		campoQuantidade.setBounds(10, 33, 78, 20);
 		painelInterno.add(campoQuantidade);
+		campoQuantidade.addKeyListener(new OnlyDigits());
+		produtos[0][0] = campoQuantidade;
 		campoQuantidade.setColumns(10);
 		
 		campoProduto = new JTextField();
 		campoProduto.setHorizontalAlignment(SwingConstants.CENTER);
 		campoProduto.setColumns(10);
 		campoProduto.setBounds(110, 33, 147, 20);
+		produtos[0][1] = campoProduto;
 		painelInterno.add(campoProduto);
 		
 		JLabel lblNewLabel = new JLabel("Quantidade");
@@ -116,9 +127,11 @@ public class TelaNovaCompra extends JFrame {
 		lblProduto.setBounds(110, 5, 147, 14);
 		painelInterno.add(lblProduto);
 		JFormattedTextField campoValor = new JFormattedTextField(formatter);
+		campoValor.setHorizontalAlignment(SwingConstants.CENTER);
+		campoValor.addKeyListener(new OnlyDigits());
 		campoValor.setBounds(305, 33, 57, 20);
 		campoValor.setColumns(10);
-		
+		produtos[0][2] = campoValor;
 		painelInterno.add(campoValor);
 		
 		JLabel lblValor = new JLabel("Valor");
@@ -133,11 +146,6 @@ public class TelaNovaCompra extends JFrame {
 		lblTotal.setBounds(400, 5, 57, 14);
 		painelInterno.add(lblTotal);
 		
-		JButton btnX = new JButton("");
-		btnX.setIcon(new ImageIcon(TelaNovaCompra.class.getResource("/view/1493126292_Artboard_1.png")));
-		btnX.setBounds(467, 33, 40, 20);
-		painelInterno.add(btnX);
-		
 		JLabel labelReais = new JLabel("R$");
 		labelReais.setHorizontalAlignment(SwingConstants.LEFT);
 		labelReais.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -150,11 +158,12 @@ public class TelaNovaCompra extends JFrame {
 		labelReais2.setBounds(379, 36, 16, 14);
 		painelInterno.add(labelReais2);
 		
-		JLabel labelTotal = new JLabel("00,00");
-		labelTotal.setFont(new Font("Tahoma", Font.BOLD, 11));
-		labelTotal.setHorizontalAlignment(SwingConstants.CENTER);
-		labelTotal.setBounds(400, 36, 57, 14);
-		painelInterno.add(labelTotal);
+		JLabel totalProduto = new JLabel("00,00");
+		totalProduto.setFont(new Font("Tahoma", Font.BOLD, 11));
+		totalProduto.setHorizontalAlignment(SwingConstants.CENTER);
+		totalProduto.setBounds(400, 36, 57, 14);
+		produtos[0][3] = totalProduto;
+		painelInterno.add(totalProduto);
 		
 		JButton btnNewButton = new JButton("Novo item");
 		btnNewButton.setIcon(new ImageIcon(TelaNovaCompra.class.getResource("/view/1493128794_flat-style-circle-add.png")));
@@ -164,16 +173,16 @@ public class TelaNovaCompra extends JFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("Total da Compra:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_1.setBounds(275, 333, 114, 14);
+		lblNewLabel_1.setBounds(275, 367, 114, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("R$ 00,00");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2.setBounds(410, 333, 65, 14);
-		contentPane.add(lblNewLabel_2);
+		JLabel valorTotalCompra = new JLabel("R$ 00,00");
+		valorTotalCompra.setFont(new Font("Tahoma", Font.BOLD, 13));
+		valorTotalCompra.setBounds(410, 367, 65, 14);
+		contentPane.add(valorTotalCompra);
 		
 		JButton btnNewButton_1 = new JButton("Confirmar compra");
-		btnNewButton_1.setIcon(new ImageIcon(TelaNovaCompra.class.getResource("/view/1493128621_Checkmark.png")));
+		btnNewButton_1.setIcon(new ImageIcon(TelaNovaCompra.class.getResource("/view/iconeConfirmacao.png")));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -198,6 +207,50 @@ public class TelaNovaCompra extends JFrame {
 		comboBoxParcelas = new JComboBox<Object>();
 		comboBoxParcelas.setBounds(75, 330, 169, 23);
 		contentPane.add(comboBoxParcelas);
+		
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.setIcon(new ImageIcon(TelaNovaCompra.class.getResource("/view/iconesair (1).png")));
+		btnVoltar.setBounds(220, 403, 169, 57);
+		btnVoltar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		contentPane.add(btnVoltar);
+		
+		caixaDesconto = new JTextField();
+		caixaDesconto.setBounds(410, 330, 37, 23);
+		contentPane.add(caixaDesconto);
+		caixaDesconto.setEnabled(false);
+		caixaDesconto.setEditable(false);
+		caixaDesconto.setText("0");
+		caixaDesconto.setColumns(10);
+		
+		JCheckBox chckbxNewCheckBox = new JCheckBox("Desconto");
+		chckbxNewCheckBox.setFont(new Font("Tahoma", Font.BOLD, 13));
+		chckbxNewCheckBox.setBounds(275, 330, 87, 23);
+		chckbxNewCheckBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if( ((JCheckBox) e.getSource()).isSelected()) {
+					caixaDesconto.setEnabled(true);
+					caixaDesconto.setEditable(true);
+				}				
+				else {
+					caixaDesconto.setEnabled(false);
+					caixaDesconto.setEditable(false);
+				}
+			}
+		});
+		contentPane.add(chckbxNewCheckBox);
+		
+		JLabel label = new JLabel("%");
+		label.setFont(new Font("Tahoma", Font.BOLD, 13));
+		label.setBounds(450, 330, 46, 23);
+		contentPane.add(label);
 	}
 	
 	public class AddNewItem implements ActionListener {
@@ -213,17 +266,78 @@ public class TelaNovaCompra extends JFrame {
 			campoQuantidade.setBounds(10, currenty, 78, 20);
 			painelInterno.add(campoQuantidade);
 			campoQuantidade.setColumns(10);
+			produtos[currentLine][0] = campoQuantidade;
 			
-			campoQuantidade = new JTextField();
-			campoQuantidade.setHorizontalAlignment(SwingConstants.CENTER);
-			campoQuantidade.setText("-");
-			campoQuantidade.setBounds(110, currenty, 147, 20);
-			painelInterno.add(campoQuantidade);
-			campoQuantidade.setColumns(10);
+			campoProduto = new JTextField();
+			campoProduto.setHorizontalAlignment(SwingConstants.CENTER);
+			campoProduto.setVisible(true);
+			campoProduto.setBounds(110, currenty, 147, 20);
+			painelInterno.add(campoProduto);
+			campoProduto.setColumns(10);
+			produtos[currentLine][1] = campoProduto;
 			
+			JLabel labelReais = new JLabel("R$");
+			labelReais.setHorizontalAlignment(SwingConstants.LEFT);
+			labelReais.setFont(new Font("Tahoma", Font.BOLD, 11));
+			labelReais.setBounds(284, currenty-15, 16, 14);
+			labelReais.setVisible(true);
+			painelInterno.add(labelReais);
+			labelReais.setSize(new Dimension(25,50));
+			
+			JTextField campoValor = new JTextField();
+			campoValor.setHorizontalAlignment(SwingConstants.CENTER);
+			campoValor.setVisible(true);
+			campoValor.setBounds(305, currenty, 57, 20);
+			painelInterno.add(campoValor);
+			campoValor.setColumns(10);
+			produtos[currentLine][2] = campoValor;
+			
+			JLabel labelReais2 = new JLabel("R$");
+			labelReais2.setHorizontalAlignment(SwingConstants.LEFT);
+			labelReais2.setFont(new Font("Tahoma", Font.BOLD, 11));
+			labelReais2.setBounds(379, currenty-15, 16, 14);
+			labelReais2.setVisible(true);
+			painelInterno.add(labelReais2);
+			labelReais2.setSize(new Dimension(25,50));
+			
+			JLabel labelTotal = new JLabel("00,00");
+			labelTotal.setFont(new Font("Tahoma", Font.BOLD, 11));
+			labelTotal.setHorizontalAlignment(SwingConstants.CENTER);
+			labelTotal.setBounds(400, currenty-15, 57, 14);
+			painelInterno.add(labelTotal);
+			labelTotal.setSize(new Dimension(57,50));
+			labelTotal.setVisible(true);
+			produtos[currentLine][3] = labelTotal;
 			
 			
 		}
 		
 	}
+	
+	public class OnlyDigits implements KeyListener {
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			char c = e.getKeyChar();
+			if(!(Character.isDigit(c)|| c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE )){
+				e.consume();
+			}
+		}
+		
+	}
+	
+	
 }

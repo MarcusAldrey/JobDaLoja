@@ -57,31 +57,16 @@ public class TelaListarClientes extends JPanel {
 
 		JLabel lblNewLabel = new JLabel("Nome/CPF:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(10, 44, 71, 14);
+		lblNewLabel.setBounds(10, 14, 71, 14);
 		add(lblNewLabel);
 
-		JRadioButton rdbtnProcuraPorNome = new JRadioButton("Procura por nome");
-		rdbtnProcuraPorNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		rdbtnProcuraPorNome.setBackground(Color.WHITE);
-		rdbtnProcuraPorNome.setSelected(true);
-		rdbtnProcuraPorNome.setBounds(91, 11, 123, 23);
-		add(rdbtnProcuraPorNome);
-
-		JRadioButton rdbtnProcurarPorCPF = new JRadioButton("Procura por CPF");
-		rdbtnProcurarPorCPF.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		rdbtnProcurarPorCPF.setBackground(Color.WHITE);
-		rdbtnProcurarPorCPF.setBounds(216, 11, 113, 23);
-		add(rdbtnProcurarPorCPF);
-
 		ButtonGroup buttonGroup = new ButtonGroup();
-		buttonGroup.add(rdbtnProcuraPorNome);
-		buttonGroup.add(rdbtnProcurarPorCPF);
 
 		updateTable(null);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPane.setBounds(10, 69, 564, 210);
+		scrollPane.setBounds(10, 42, 564, 237);
 		add(scrollPane);
 		
 		lblNenhumClienteEncontrado = new JLabel("Nenhum cliente encontrado");
@@ -94,7 +79,7 @@ public class TelaListarClientes extends JPanel {
 		textFieldNomeCPF = new JTextField();
 		textFieldNomeCPF.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textFieldNomeCPF.setToolTipText("");
-		textFieldNomeCPF.setBounds(91, 41, 233, 20);
+		textFieldNomeCPF.setBounds(91, 11, 233, 20);
 		add(textFieldNomeCPF);
 		textFieldNomeCPF.setColumns(10);
 		textFieldNomeCPF.getDocument().addDocumentListener(new DocumentListener() {
@@ -196,9 +181,9 @@ public class TelaListarClientes extends JPanel {
 		Font cabecalho = new Font("SansSerif", Font.BOLD + Font.ITALIC, 12);
 		table.getTableHeader().setFont(cabecalho);
 		table.setRowSelectionAllowed(true);
-		table.setRowHeight(20);
+		table.setRowHeight(30);
 		table.setDefaultEditor(Object.class, null);
-		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		if(scrollPane != null)
 			scrollPane.setViewportView(table);
 
