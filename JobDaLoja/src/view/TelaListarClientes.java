@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -59,7 +60,7 @@ public class TelaListarClientes extends JPanel {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel.setBounds(10, 14, 71, 14);
 		add(lblNewLabel);
-
+		
 		ButtonGroup buttonGroup = new ButtonGroup();
 
 		updateTable(null);
