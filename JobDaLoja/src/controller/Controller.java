@@ -41,9 +41,9 @@ public class Controller {
 		
 	}
 	
-	public static ResultSet getCliente(String CPF) throws SQLException, ClassNotFoundException {
+	public static ResultSet getCliente(String nome) throws SQLException, ClassNotFoundException {
 		Statement clientes = con.createStatement();
-		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone, DataDeNascimento FROM Clientes WHERE CPF='" + CPF + "'");
+		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone, DataDeNascimento FROM Clientes WHERE Nome='" + nome + "'");
 		return rs;		
 	}
 	

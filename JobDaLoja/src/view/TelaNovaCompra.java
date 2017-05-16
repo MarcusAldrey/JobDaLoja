@@ -62,6 +62,9 @@ public class TelaNovaCompra extends JFrame {
 	JScrollPane scrollPane;
 	private JTextField campoValorx;
 	JLabel valorTotalCompra;
+	float valorTotal;
+	float valorTotalProduto;
+	float desconto;
 
 	/**
 	 * Create the frame.
@@ -136,7 +139,7 @@ public class TelaNovaCompra extends JFrame {
 		
 		valorTotalCompra = new JLabel("R$ 00,00");
 		valorTotalCompra.setFont(new Font("Tahoma", Font.BOLD, 13));
-		valorTotalCompra.setBounds(410, 367, 65, 14);
+		valorTotalCompra.setBounds(410, 367, 86, 14);
 		contentPane.add(valorTotalCompra);
 		
 		JButton btnNewButton_1 = new JButton("Confirmar compra");
@@ -173,6 +176,7 @@ public class TelaNovaCompra extends JFrame {
 		caixaDesconto.setEditable(false);
 		caixaDesconto.setText("0");
 		caixaDesconto.setColumns(10);
+		caixaDesconto.addKeyListener(new DescontoListener());
 		
 		JLabel labelPorcento = new JLabel("%");
 		labelPorcento.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -196,6 +200,8 @@ public class TelaNovaCompra extends JFrame {
 					caixaDesconto.setEnabled(false);
 					caixaDesconto.setEditable(false);
 					labelPorcento.setEnabled(false);
+					caixaDesconto.setText("0");
+					valorTotalCompra.setText("R$ " + String.format("%.2f", valorTotal));					
 				}
 			}
 		});
@@ -313,7 +319,7 @@ public class TelaNovaCompra extends JFrame {
 			produtos[currentLine][0] = campoQuantidade.getText();
 			produtos[currentLine][1] = campoProduto.getText();
 			produtos[currentLine][2] = campoValorx.getText();
-			produtos[currentLine][3] = totalProduto.getText();
+			produtos[currentLine][3] = Float.toString(valorTotalProduto);
 			String[] columnNames = {"Quantidade", "Produto", "Valor unit. (R$)", "Total (R$)"};
 			tabelaProdutos = new JTable(produtos, columnNames);
 			tabelaProdutos.setShowGrid(false);
@@ -327,12 +333,38 @@ public class TelaNovaCompra extends JFrame {
 			campoQuantidade.setText("1");
 			campoProduto.setText("");
 			totalProduto.setText("00,00");
-			int valorTotal = 0;
+			valorTotal = 0;
+			valorTotalProduto = 0;
 			for(int i=0;i<30;i++)
 				if(produtos[i][3] != null)
-				valorTotal += Integer.parseInt((String) produtos[i][3]);
-			valorTotalCompra.setText(Integer.toString(valorTotal));
+				valorTotal += Float.parseFloat((String) produtos[i][3]);
+			valorTotalCompra.setText("R$ " + String.format("%.2f", valorTotal));
 			currentLine++;
+		}
+		
+	}
+	
+	public class DescontoListener implements KeyListener {
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			desconto = Float.parseFloat(caixaDesconto.getText());
+			valorTotalCompra.setText("R$ " + String.format("%.2f", valorTotal - (valorTotal*desconto)/100));
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			char c = e.getKeyChar();
+			if(!(Character.isDigit(c)|| c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE))
+				e.consume();
 		}
 		
 	}
@@ -350,17 +382,17 @@ public class TelaNovaCompra extends JFrame {
 			// TODO Auto-generated method stub
 			if(campoValorx.getText().equals("") || campoQuantidade.getText().equals(""))
 				return;
-			int valor = Integer.parseInt(campoValorx.getText());
-			int total = Integer.parseInt(campoQuantidade.getText());
-			totalProduto.setText(Integer.toString(valor * total));
+			float valor = Float.parseFloat(campoValorx.getText());
+			valorTotalProduto = Float.parseFloat(campoQuantidade.getText()) * valor;
+			totalProduto.setText(String.format("%.2f", valorTotalProduto));
 		}
 
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// TODO Auto-generated method stub
 			char c = e.getKeyChar();
-			if(!(Character.isDigit(c)|| c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE )){
-				e.consume();
+			if(!(Character.isDigit(c)|| c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_PERIOD)){
+				e.consume();			
 			}
 			
 		}

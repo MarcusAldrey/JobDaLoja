@@ -18,6 +18,11 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 public class TelaInicio extends JFrame {
 
@@ -93,22 +98,36 @@ public class TelaInicio extends JFrame {
 		url = this.getClass().getResource("iconeSair.png");
 		icone = new ImageIcon(url);
 		JButton botaoCliente = new JButton("Novo cliente", new ImageIcon(TelaInicio.class.getResource("/view/iconeCliente.png")));
-		botaoCliente.setBounds(100, 156, 200, 70);
+		botaoCliente.setBounds(100, 72, 200, 70);
 		botaoCliente.addActionListener(new CadastroClienteAction());
 		JButton botaoSair = new JButton("     Fechar   ", icone);
-		botaoSair.setBounds(100, 396, 200, 70);
+		botaoSair.setBounds(100, 315, 200, 70);
 		botaoSair.addActionListener(new SairAction());
 		contentPane.setLayout(null);
 		contentPane.add(botaoSair);
 		contentPane.add(botaoCliente);
 		JButton botaoBuscarCliente = new JButton("Buscar cliente", new ImageIcon(TelaInicio.class.getResource("/view/1491380374_magnifyingglass.png")));
-		botaoBuscarCliente.setBounds(100, 236, 200, 70);
+		botaoBuscarCliente.setBounds(100, 153, 200, 70);
 		botaoBuscarCliente.addActionListener(new ProcurarClienteAction());
 		contentPane.add(botaoBuscarCliente);
 		JButton botaoVencimentos = new JButton("Vencimentos", new ImageIcon(TelaInicio.class.getResource("/view/iconeVencimento.png")));
-		botaoVencimentos.setBounds(100, 316, 200, 70);
+		botaoVencimentos.setBounds(100, 234, 200, 70);
 		botaoVencimentos.addActionListener(new VisualizarVencimentosAction());
 		contentPane.add(botaoVencimentos);
+		
+		JLabel lblAniversariantesDoDia = new JLabel("Aniversariantes do dia:");
+		lblAniversariantesDoDia.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblAniversariantesDoDia.setBounds(10, 417, 190, 21);
+		contentPane.add(lblAniversariantesDoDia);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 446, 374, 114);
+		contentPane.add(scrollPane);
+		
+		JLabel lblNenhumClienteFaz = new JLabel("Nenhum cliente faz anivers\u00E1rio hoje");
+		lblNenhumClienteFaz.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		lblNenhumClienteFaz.setHorizontalAlignment(SwingConstants.CENTER);
+		scrollPane.setColumnHeaderView(lblNenhumClienteFaz);
 	}
 	
 	private class CadastroClienteAction implements ActionListener {

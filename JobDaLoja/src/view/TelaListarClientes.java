@@ -193,10 +193,10 @@ public class TelaListarClientes extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if(e.getValueIsAdjusting()) {
-					String cpfDoCliente = table.getValueAt(table.getSelectedRow(), 1).toString();
+					String nomeDoCliente = table.getValueAt(table.getSelectedRow(), 0).toString();
 					JFrame frame = null;
 					try {
-						frame = new TelaCliente(cpfDoCliente);
+						frame = new TelaCliente(nomeDoCliente);
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

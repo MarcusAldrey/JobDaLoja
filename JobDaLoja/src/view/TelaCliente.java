@@ -42,7 +42,7 @@ public class TelaCliente extends JFrame {
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public TelaCliente(String CPF) throws SQLException, ClassNotFoundException {
+	public TelaCliente(String nome) throws SQLException, ClassNotFoundException {
 		URL url = this.getClass().getResource("logo.jpg"); 
 		Image iconeTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		this.setIconImage(iconeTitulo);		
@@ -59,7 +59,7 @@ public class TelaCliente extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		ResultSet rs = Controller.getCliente(CPF);
+		ResultSet rs = Controller.getCliente(nome);
 		
 		
 		JLabel lblNome = new JLabel("Nome:");
@@ -132,7 +132,7 @@ public class TelaCliente extends JFrame {
 				// TODO Auto-generated method stub
 				JFrame frame = null;
 				try {
-					frame = new TelaNovaCompra(rs.getString(2));
+					frame = new TelaNovaCompra(rs.getString(1));
 				} catch (SQLException | ClassNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, "Não foi possível acessar o bando de dados");
 					e1.printStackTrace();
@@ -174,7 +174,10 @@ public class TelaCliente extends JFrame {
 		lblAniversrio.setBounds(10, 105, 91, 16);
 		contentPane.add(lblAniversrio);
 		
-		JLabel niverTxt = new JLabel(Controller.converterSqlToPad(rs.getString(4)));
+		String niver = rs.getString(4);
+		JLabel niverTxt = new JLabel();
+		if(!(niver == null)) 
+			niverTxt = new JLabel(Controller.converterSqlToPad(niver));
 		niverTxt.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		niverTxt.setBounds(97, 105, 115, 16);
 		contentPane.add(niverTxt);

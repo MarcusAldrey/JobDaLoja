@@ -245,12 +245,15 @@ public class TelaNovoCliente extends JFrame {
 			} catch (NumberFormatException e1) {
 				JOptionPane.showMessageDialog(null, "Algum campo foi preenchido incorretamente");
 				e1.printStackTrace();
+				return;
 			} catch (ClassNotFoundException e1) {
 				JOptionPane.showMessageDialog(null, "JDBC não instalado");
 				e1.printStackTrace();
+				return;
 			} catch (SQLException e1) {
 				JOptionPane.showMessageDialog(null, "Não foi possível acessar o banco de dados");
 				e1.printStackTrace();
+				return;
 			}
 			JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
 			fecharTela();
