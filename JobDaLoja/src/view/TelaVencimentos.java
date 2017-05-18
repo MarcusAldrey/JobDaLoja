@@ -6,9 +6,12 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -79,10 +82,20 @@ public class TelaVencimentos extends JFrame {
 		contentPane.add(lblOu);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 116, 678, 344);
+		scrollPane.setBounds(6, 116, 678, 283);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
+		
+		JButton btnNewButton = new JButton("Voltar");
+		btnNewButton.setBounds(544, 410, 140, 50);
+		contentPane.add(btnNewButton);
+		btnNewButton.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/iconesair (1).png")));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 	}
 }

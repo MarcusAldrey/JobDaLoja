@@ -107,16 +107,16 @@ public class TelaCliente extends JFrame {
 		lblCompras.setBounds(10, 171, 77, 16);
 		contentPane.add(lblCompras);
 		
-		JButton btnNewButton = new JButton("Voltar");
-		btnNewButton.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/iconesair (1).png")));
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/iconesair (1).png")));
+		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
 		
-		btnNewButton.setBounds(204, 410, 170, 50);
-		getContentPane().add(btnNewButton);
+		btnVoltar.setBounds(204, 410, 170, 50);
+		getContentPane().add(btnVoltar);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 198, 364, 201);
