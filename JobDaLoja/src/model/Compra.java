@@ -82,14 +82,14 @@ public class Compra {
 	}
 
 	/**
-	 * @return the valorTotal
+	 * @return the valorSubTotal
 	 */
 	public float getValorTotal() {
 		return valorTotal;
 	}
 
 	/**
-	 * @param valorTotal the valorTotal to set
+	 * @param valorSubTotal the valorSubTotal to set
 	 */
 	public void setValorTotal(float valorTotal) {
 		this.valorTotal = valorTotal;

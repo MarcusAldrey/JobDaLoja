@@ -63,7 +63,7 @@ public class TelaNovaCompra extends JFrame {
 	JScrollPane scrollPane;
 	private JTextField campoValorx;
 	JLabel valorSubTotalCompra;
-	float valorTotal;
+	float valorSubTotal;
 	float valorTotalProduto;
 	float desconto;
 	JRadioButton rdbtnCredirio;
@@ -345,9 +345,11 @@ public class TelaNovaCompra extends JFrame {
 		rdbtnCarto.setBounds(10, 367, 65, 23);
 		contentPane.add(rdbtnCarto);
 
-		comboBoxParcelaCarto = new JComboBox<Object>();
+		String parcelas[] = {" 1X", " 2X", " 3X", " 4X", " 5X", " 6X", " 7X", " 8X", " 9X"};
+		comboBoxParcelaCarto = new JComboBox<Object>(parcelas);
+		comboBoxParcelaCarto.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		comboBoxParcelaCarto.setEnabled(false);
-		comboBoxParcelaCarto.setBounds(83, 368, 36, 23);
+		comboBoxParcelaCarto.setBounds(83, 368, 57, 23);		
 		contentPane.add(comboBoxParcelaCarto);
 
 		rdbtnCredirio = new JRadioButton("Credi\u00E1rio");
@@ -387,11 +389,11 @@ public class TelaNovaCompra extends JFrame {
 				campoQuantidade.setText("1");
 				campoProduto.setText("");
 				totalProduto.setText("00,00");
-				valorTotal = 0;
+				valorSubTotal = 0;
 				valorTotalProduto = 0;
 				for(int i=0;i<30;i++)
 					if(produtos[i][3] != null)
-						valorTotal += Float.parseFloat((String) produtos[i][3]);
+						valorSubTotal += Float.parseFloat((String) produtos[i][3]);
 				atualizarTotaleSubTotal();
 				currentLine++;
 			}
@@ -476,9 +478,13 @@ public class TelaNovaCompra extends JFrame {
 	}
 	
 	public void atualizarTotaleSubTotal() {
-		valorSubTotalCompra.setText("R$ " + String.format("%.2f", valorTotal));
-		desconto = (valorTotal*Float.parseFloat(caixaDesconto.getText()))/100;
+		valorSubTotalCompra.setText("R$ " + String.format("%.2f", valorSubTotal));
+		desconto = (valorSubTotal*Float.parseFloat(caixaDesconto.getText()))/100;
 		lblValorDesconto.setText("R$ " + String.format("%.2f", desconto));
-		valorTotalCompra.setText("R$ " + String.format("%.2f", valorTotal - desconto));
+		valorTotalCompra.setText("R$ " + String.format("%.2f", valorSubTotal - desconto));
+	}
+	
+	public void atualizarParcelasCrediario() {
+		
 	}
 }

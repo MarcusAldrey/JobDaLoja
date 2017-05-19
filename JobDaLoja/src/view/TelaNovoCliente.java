@@ -239,9 +239,11 @@ public class TelaNovoCliente extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			int numero = 0;
+			if(!textNumero.getText().equals(""))
+				numero = Integer.parseInt(textNumero.getText());
 			try {
-				Controller.cadastrarCliente(txtNome.getText(), "(" + txtddd.getText() +")" + telefone_1.getText(), cpf_1.getText(), comboBoxEstado.getSelectedItem().toString(), txtCidade.getText(), textBairro.getText(), textRua.getText(), Integer.parseInt(textNumero.getText()), dataDeNascimento_1.getText());
+				Controller.cadastrarCliente(txtNome.getText(), "(" + txtddd.getText() +")" + telefone_1.getText(), cpf_1.getText(), comboBoxEstado.getSelectedItem().toString(), txtCidade.getText(), textBairro.getText(), textRua.getText(), numero, dataDeNascimento_1.getText());
 			} catch (NumberFormatException e1) {
 				JOptionPane.showMessageDialog(null, "Algum campo foi preenchido incorretamente");
 				e1.printStackTrace();

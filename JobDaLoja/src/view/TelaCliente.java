@@ -99,7 +99,7 @@ public class TelaCliente extends JFrame {
 		
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEndereo.setBounds(10, 127, 115, 16);
+		lblEndereo.setBounds(10, 127, 77, 16);
 		contentPane.add(lblEndereo);
 		
 		JLabel lblCompras = new JLabel("Compras");
@@ -191,6 +191,25 @@ public class TelaCliente extends JFrame {
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		label.setBounds(105, 108, 115, 16);
 		contentPane.add(label);
+		
+		JLabel enderecoCliente = new JLabel();
+		enderecoCliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		enderecoCliente.setBounds(85, 127, 289, 16);
+		
+		JLabel restoEndereco = new JLabel();
+		restoEndereco.setText("<dynamic>");
+		restoEndereco.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		restoEndereco.setBounds(10, 144, 289, 16);
+		contentPane.add(restoEndereco);
+		
+		String endereco = rs.getString(5);
+		String resto = "";
+		if(endereco.length() > 45)
+			resto = endereco.substring(44);
+		enderecoCliente.setText(endereco);
+		restoEndereco.setText(resto);
+		contentPane.add(enderecoCliente);		
+		
 		this.setTitle("La Victoria - Informações de cliente");
 	}
 }
