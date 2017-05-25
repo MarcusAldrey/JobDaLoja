@@ -38,6 +38,8 @@ public class TelaInicio extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		SplashScreen splash = new SplashScreen(5000);
+		splash.mostrarSplashESair();
 		try {
 			new Controller();
 		} catch (ClassNotFoundException e1) {
@@ -117,11 +119,13 @@ public class TelaInicio extends JFrame {
 		
 		JButton btnAniversrios = new JButton("Aniversariantes", new ImageIcon(TelaInicio.class.getResource("/view/iconeNiver.png")));
 		btnAniversrios.setBounds(101, 368, 200, 70);
+		btnAniversrios.addActionListener(new AniversariosAction());
 		contentPane.add(btnAniversrios);
 		
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(TelaInicio.class.getResource("/view/splashscreen (1).jpg")));
-		label.setBounds(116, 29, 185, 85);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setIcon(new ImageIcon(TelaInicio.class.getResource("/view/f65ef0d8-572b-4a47-9791-b63fa017c01e.jpg")));
+		label.setBounds(10, 11, 374, 103);
 		contentPane.add(label);
 	}
 	
@@ -133,6 +137,16 @@ public class TelaInicio extends JFrame {
 			frame.setVisible(true);
 		}
 
+	}
+	
+	private class AniversariosAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			new TelaAniversario();
+		}
+		
 	}
 
 	@SuppressWarnings("unused")

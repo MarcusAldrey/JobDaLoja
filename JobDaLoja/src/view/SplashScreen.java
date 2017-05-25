@@ -45,7 +45,7 @@ public class SplashScreen extends JWindow {
 	 * Mostra a splashScreen pelo tempo da sua duração e fecha
 	 */
 	public void mostrarSplashESair() {        
-		//mostrarSplash();
+		mostrarSplash();
 		dispose();    
 	}
 }

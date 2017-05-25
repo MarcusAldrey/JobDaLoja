@@ -67,7 +67,7 @@ public class TelaListarClientes extends JPanel {
 
 		scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPane.setBounds(10, 42, 564, 237);
+		scrollPane.setBounds(10, 42, 564, 347);
 		add(scrollPane);
 		
 		lblNenhumClienteEncontrado = new JLabel("Nenhum cliente encontrado");
@@ -80,7 +80,7 @@ public class TelaListarClientes extends JPanel {
 		textFieldNomeCPF = new JTextField();
 		textFieldNomeCPF.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textFieldNomeCPF.setToolTipText("");
-		textFieldNomeCPF.setBounds(91, 11, 233, 20);
+		textFieldNomeCPF.setBounds(91, 11, 240, 20);
 		add(textFieldNomeCPF);
 		textFieldNomeCPF.setColumns(10);
 		textFieldNomeCPF.getDocument().addDocumentListener(new DocumentListener() {
@@ -122,7 +122,7 @@ public class TelaListarClientes extends JPanel {
 		janela = new JDialog();
 		janela.getContentPane().setBackground(Color.WHITE);
 		int largura = 600;
-		int altura = 400;
+		int altura = 500;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screen.width-largura)/2;
 		int y = (screen.height-altura)/2;
@@ -133,7 +133,7 @@ public class TelaListarClientes extends JPanel {
 		JButton button = new JButton("Voltar");
 		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button.setIcon(new ImageIcon(TelaListarClientes.class.getResource("/view/iconesair (1).png")));
-		button.setBounds(404, 300, 170, 50);
+		button.setBounds(404, 400, 170, 50);
 		button.addActionListener(new ActionListener() {
 
 			@Override

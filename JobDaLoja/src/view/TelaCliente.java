@@ -28,6 +28,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.ImageIcon;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
 
 public class TelaCliente extends JFrame {
 
@@ -148,26 +150,33 @@ public class TelaCliente extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Detalhes da compra");
+		JLabel lblNewLabel = new JLabel("Detalhes");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setBounds(85, 11, 130, 14);
 		panel.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Produtos Comprados");
-		lblNewLabel_1.setBounds(10, 236, 100, 14);
-		panel.add(lblNewLabel_1);
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(10, 89, 280, 185);
+		panel.add(scrollPane_2);
+		
+		JLabel lblDataDaCompra = new JLabel("Data da compra:");
+		lblDataDaCompra.setBounds(10, 39, 88, 14);
+		panel.add(lblDataDaCompra);
 		
 		JLabel lblParcelas = new JLabel("Parcelas");
-		lblParcelas.setBounds(10, 37, 100, 14);
+		lblParcelas.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblParcelas.setBounds(10, 64, 88, 14);
 		panel.add(lblParcelas);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 261, 280, 176);
-		panel.add(scrollPane_1);
+		JLabel lblItensComprados = new JLabel("Itens comprados");
+		lblItensComprados.setBounds(10, 285, 117, 14);
+		panel.add(lblItensComprados);
+		lblItensComprados.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(10, 62, 280, 162);
-		panel.add(scrollPane_2);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 310, 280, 127);
+		panel.add(scrollPane_1);
 		
 		JLabel lblAniversrio = new JLabel("Anivers\u00E1rio:");
 		lblAniversrio.setFont(new Font("Tahoma", Font.BOLD, 14));
