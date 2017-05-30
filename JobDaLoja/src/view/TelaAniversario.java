@@ -18,6 +18,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
 
 public class TelaAniversario extends JPanel {
 
@@ -62,8 +63,30 @@ public class TelaAniversario extends JPanel {
 		aniversarios[4][1] = "Maria 3";
 		
 		String[] columnNames = {"Data", "Nome"};
-				
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(TelaAniversario.class.getResource("/view/1495241485_Gift.png")));
+		lblNewLabel.setBounds(310, 11, 64, 64);
+		add(lblNewLabel);
+		
+		JLabel label = new JLabel("");
+		label.setBounds(144, 61, 46, 14);
+		add(label);
+
+		JButton btnNewButton = new JButton("Voltar");
+		btnNewButton.setBounds(234, 400, 140, 50);
+		add(btnNewButton);
+		btnNewButton.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/iconesair (1).png")));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 86, 364, 303);
+		add(scrollPane);
+		
 		table = new JTable(aniversarios, columnNames);
+		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(aniversarios,columnNames) {
 			/**
 			 * 
@@ -87,31 +110,10 @@ public class TelaAniversario extends JPanel {
 		table.getColumnModel().getColumn(1).setMinWidth(200);
 		table.setFillsViewportHeight(true);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		table.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setRowSelectionAllowed(false);
-		table.setBounds(10, 86, 364, 289);
 		table.setRowSelectionAllowed(true);
-		
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 		table.setDefaultRenderer(String.class, centerRenderer);
-		
-		add(table);
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(TelaAniversario.class.getResource("/view/1495241485_Gift.png")));
-		lblNewLabel.setBounds(310, 11, 64, 64);
-		add(lblNewLabel);
-		
-		JLabel label = new JLabel("");
-		label.setBounds(144, 61, 46, 14);
-		add(label);
-
-		JButton btnNewButton = new JButton("Voltar");
-		btnNewButton.setBounds(234, 400, 140, 50);
-		add(btnNewButton);
-		btnNewButton.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/iconesair (1).png")));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				janela.dispose();

@@ -74,7 +74,7 @@ public class TelaNovaCompra extends JFrame {
 	JLabel lblVencimento;
 	JLabel lblValorDesconto;
 	JLabel lblvalorTotalCompra;
-	float[] valorDeParcelas = new float[5];
+	float[] valorDeParcelas = new float[6];
 
 	/**
 	 * Create the frame.
@@ -490,7 +490,7 @@ public class TelaNovaCompra extends JFrame {
 		
 	public void atualizarParcelasCrediario() {
 		comboBoxParcelasCrediario.removeAllItems();
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 6; i++) {
 			valorDeParcelas[i] = valorTotalCompra/(i+1);
 			String parcela = i+1 + "X de R$ " + String.format("%.2f", valorTotalCompra/(i+1));
 			comboBoxParcelasCrediario.addItem(parcela);
