@@ -49,7 +49,7 @@ public class TelaNovaCompra extends JFrame {
 	Object[][] valoresDaTabela;
 	private JTextField campoQuantidade;
 	private JTextField campoProduto;
-	JComboBox<?> comboBoxParcelasCrediario;
+	JComboBox<String> comboBoxParcelasCrediario;
 	int currenty = 33;
 	int currentLine = 0;
 	private JTextField caixaDesconto;
@@ -66,13 +66,15 @@ public class TelaNovaCompra extends JFrame {
 	float valorSubTotal;
 	float valorTotalProduto;
 	float desconto;
+	float valorTotalCompra;
 	JRadioButton rdbtnCredirio;
 	JRadioButton rdbtnRadioButtonVista;
 	JRadioButton rdbtnCarto;
 	JComboBox<Object> comboBoxParcelaCarto;
 	JLabel lblVencimento;
 	JLabel lblValorDesconto;
-	JLabel valorTotalCompra;
+	JLabel lblvalorTotalCompra;
+	float[] valorDeParcelas = new float[5];
 
 	/**
 	 * Create the frame.
@@ -161,7 +163,7 @@ public class TelaNovaCompra extends JFrame {
 
 
 
-		comboBoxParcelasCrediario = new JComboBox<Object>();
+		comboBoxParcelasCrediario = new JComboBox<String>();
 		comboBoxParcelasCrediario.setEnabled(false);
 		comboBoxParcelasCrediario.setBounds(83, 403, 169, 23);
 		contentPane.add(comboBoxParcelasCrediario);
@@ -314,10 +316,10 @@ public class TelaNovaCompra extends JFrame {
 		lblTotal_1.setBounds(275, 424, 114, 14);
 		contentPane.add(lblTotal_1);
 
-		valorTotalCompra = new JLabel("R$ 00,00");
-		valorTotalCompra.setFont(new Font("Tahoma", Font.BOLD, 13));
-		valorTotalCompra.setBounds(410, 424, 86, 14);
-		contentPane.add(valorTotalCompra);
+		lblvalorTotalCompra = new JLabel("R$ 00,00");
+		lblvalorTotalCompra.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblvalorTotalCompra.setBounds(410, 424, 86, 14);
+		contentPane.add(lblvalorTotalCompra);
 
 		lblValorDesconto = new JLabel("R$ 00,00");
 		lblValorDesconto.setForeground(new Color(0, 153, 0));
@@ -481,12 +483,17 @@ public class TelaNovaCompra extends JFrame {
 		valorSubTotalCompra.setText("R$ " + String.format("%.2f", valorSubTotal));
 		desconto = (valorSubTotal*Float.parseFloat(caixaDesconto.getText()))/100;
 		lblValorDesconto.setText("R$ " + String.format("%.2f", desconto));
-		valorTotalCompra.setText("R$ " + String.format("%.2f", valorSubTotal - desconto));
+		valorTotalCompra = valorSubTotal - desconto;
+		lblvalorTotalCompra.setText("R$ " + String.format("%.2f", valorTotalCompra));
+		atualizarParcelasCrediario();
 	}
-	
+		
 	public void atualizarParcelasCrediario() {
+		comboBoxParcelasCrediario.removeAllItems();
 		for(int i = 0; i < 5; i++) {
-			
+			valorDeParcelas[i] = valorTotalCompra/(i+1);
+			String parcela = i+1 + "X de R$ " + String.format("%.2f", valorTotalCompra/(i+1));
+			comboBoxParcelasCrediario.addItem(parcela);
 		}
 	}
 }

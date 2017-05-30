@@ -21,7 +21,7 @@ public class Controller {
 	
 	public static void cadastrarCliente(String nome, String telefone, String CPF, String estado, String cidade, String bairro, String rua, int numero, String dataDeNascimento) throws ClassNotFoundException, SQLException {
 		
-		PreparedStatement user = con.prepareStatement("INSERT INTO Clientes VALUES (?,?,?,?,?)");
+		PreparedStatement user = con.prepareStatement("INSERT INTO Clientes VALUES (?,?,?,?,?,?)");
 		user.setString(1, nome);
 		user.setString(2, CPF);
 		user.setString(3, telefone);
