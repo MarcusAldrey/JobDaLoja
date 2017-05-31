@@ -6,19 +6,17 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
 
 public class TelaAniversario extends JPanel {
 
@@ -28,6 +26,7 @@ public class TelaAniversario extends JPanel {
 	private static final long serialVersionUID = 1L;
 	JDialog janela;
 	private JTable table;
+	private ResultSet rs;
 	
 	/**
 	 * Create the panel.
@@ -49,6 +48,7 @@ public class TelaAniversario extends JPanel {
 		lblAniversariantesDoMs.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblAniversariantesDoMs.setBounds(10, 31, 337, 19);
 		add(lblAniversariantesDoMs);
+		
 		
 		String[][] aniversarios = new String [10][2];
 		aniversarios[0][0] = "02/01";
