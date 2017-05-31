@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -54,7 +55,7 @@ public class TelaNovaCompra extends JFrame {
 	int currentLine = 0;
 	private JTextField caixaDesconto;
 	JFormattedTextField vencimento;
-	private JFormattedTextField vencimento_1;
+	private JFormattedTextField primeiroVencimento;
 	Object[][] produtos;
 	private JTable tabelaProdutos;
 	String[] columnNames;
@@ -75,13 +76,14 @@ public class TelaNovaCompra extends JFrame {
 	JLabel lblValorDesconto;
 	JLabel lblvalorTotalCompra;
 	float[] valorDeParcelas = new float[6];
+	String nomeCliente;
 
 	/**
 	 * Create the frame.
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public TelaNovaCompra(String CPF) throws ClassNotFoundException, SQLException {
+	public TelaNovaCompra(String nomeCliente) throws ClassNotFoundException, SQLException {
 		URL url = this.getClass().getResource("logo.jpg"); 
 		Image iconeTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		this.setIconImage(iconeTitulo);		
@@ -98,8 +100,9 @@ public class TelaNovaCompra extends JFrame {
 		setContentPane(contentPane);
 
 		produtos = new Object[30][4];
+		this.nomeCliente = nomeCliente;
 
-		ResultSet rs = Controller.getCliente(CPF);
+		ResultSet rs = Controller.getCliente(nomeCliente);
 		this.setTitle("Nova Compra - " + rs.getString(1));
 		contentPane.setLayout(null);
 
@@ -154,10 +157,7 @@ public class TelaNovaCompra extends JFrame {
 
 		JButton btnFinalizarCompra = new JButton("Finalizar");
 		btnFinalizarCompra.setIcon(new ImageIcon(TelaNovaCompra.class.getResource("/view/iconeConfirmacao.png")));
-		btnFinalizarCompra.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		btnFinalizarCompra.addActionListener(new ConfirmarCompraAction());
 		btnFinalizarCompra.setBounds(532, 403, 152, 57);
 		contentPane.add(btnFinalizarCompra);
 
@@ -288,20 +288,20 @@ public class TelaNovaCompra extends JFrame {
 
 		vencimento = null;
 		try {
-			vencimento_1 = new JFormattedTextField(new MaskFormatter("##/##/####"));
-			vencimento_1.setEnabled(false);
+			primeiroVencimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+			primeiroVencimento.setEnabled(false);
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		vencimento_1.setBounds(138, 437, 65, 20);
+		primeiroVencimento.setBounds(138, 437, 65, 20);
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, 1);
 		String day = String.format("%02d", cal.get(Calendar.DATE));
 		String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
 		String year = Integer.toString(cal.get(Calendar.YEAR));
-		vencimento_1.setText(day + month + year);
-		contentPane.add(vencimento_1);
+		primeiroVencimento.setText(day + month + year);
+		contentPane.add(primeiroVencimento);
 
 
 		JLabel lblFormaDePagamento = new JLabel("Forma de pagamento:");
@@ -339,6 +339,7 @@ public class TelaNovaCompra extends JFrame {
 
 		rdbtnRadioButtonVista = new JRadioButton("\u00C0 vista");
 		rdbtnRadioButtonVista.setBounds(10, 341, 70, 23);
+		rdbtnRadioButtonVista.setSelected(true);
 		contentPane.add(rdbtnRadioButtonVista);
 
 		ButtonGroup formaDePagamento = new ButtonGroup();
@@ -434,15 +435,15 @@ public class TelaNovaCompra extends JFrame {
 			// TODO Auto-generated method stub
 			comboBoxParcelaCarto.setEnabled(false);
 			comboBoxParcelasCrediario.setEnabled(false);
-			vencimento_1.setEnabled(false);
-			vencimento_1.setEditable(false);
+			primeiroVencimento.setEnabled(false);
+			primeiroVencimento.setEditable(false);
 			lblVencimento.setEnabled(false);
 			if(rdbtnCarto.isSelected())
 				comboBoxParcelaCarto.setEnabled(true);
 			else if(rdbtnCredirio.isSelected()) {
 				comboBoxParcelasCrediario.setEnabled(true);
-				vencimento_1.setEnabled(true);
-				vencimento_1.setEditable(true);
+				primeiroVencimento.setEnabled(true);
+				primeiroVencimento.setEditable(true);
 				lblVencimento.setEnabled(true);
 			}
 		}
@@ -478,7 +479,7 @@ public class TelaNovaCompra extends JFrame {
 		}
 
 	}
-	
+
 	public void atualizarTotaleSubTotal() {
 		valorSubTotalCompra.setText("R$ " + String.format("%.2f", valorSubTotal));
 		desconto = (valorSubTotal*Float.parseFloat(caixaDesconto.getText()))/100;
@@ -487,7 +488,7 @@ public class TelaNovaCompra extends JFrame {
 		lblvalorTotalCompra.setText("R$ " + String.format("%.2f", valorTotalCompra));
 		atualizarParcelasCrediario();
 	}
-		
+
 	public void atualizarParcelasCrediario() {
 		comboBoxParcelasCrediario.removeAllItems();
 		for(int i = 0; i < 6; i++) {
@@ -496,14 +497,55 @@ public class TelaNovaCompra extends JFrame {
 			comboBoxParcelasCrediario.addItem(parcela);
 		}
 	}
-	
+
 	public class ConfirmarCompraAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
+			int qtdParcelas = comboBoxParcelasCrediario.getSelectedIndex() + 1;
+
+			String dataDaCompra;
+			Calendar cal = Calendar.getInstance();
+			String day = String.format("%02d", cal.get(Calendar.DATE));
+			String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+			String year = Integer.toString(cal.get(Calendar.YEAR));
+			dataDaCompra = day + "/" + month + "/" + year;			
+
+			String formaDePagamento = "";
+			if(rdbtnRadioButtonVista.isSelected())
+				formaDePagamento = "À vista";
+			else if(rdbtnCarto.isSelected())
+				formaDePagamento = "Cartão - " + (comboBoxParcelaCarto.getSelectedIndex()+1) + "X";
+			else if(rdbtnCredirio.isSelected())
+				formaDePagamento = "Crediario";
+
+			String[] datasDeVencimento = new String[qtdParcelas];
 			
+			if(formaDePagamento.equals("Crediario")) {
+				String dataVencimento = "";
+				datasDeVencimento[0] = primeiroVencimento.getText();
+				int AnoVencimento= Integer.parseInt(Controller.getAnoPad(datasDeVencimento[0]));
+				int mesVencimento = Integer.parseInt(Controller.getMesPad(datasDeVencimento[0]));
+				int diaVencimento = Integer.parseInt(Controller.getDiaPad(datasDeVencimento[0]));
+				cal.set(AnoVencimento, mesVencimento-1, diaVencimento);
+				for(int i=1; i<qtdParcelas; i++) {
+					cal.add(Calendar.MONTH, 1);
+					day = String.format("%02d", cal.get(Calendar.DATE));
+					month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+					year = Integer.toString(cal.get(Calendar.YEAR));
+					dataVencimento = day + "/" + month + "/" + year;	
+					datasDeVencimento[i] = dataVencimento;
+				}
+			}
+			
+			try {
+				Controller.novaCompra(nomeCliente, valorTotalCompra, dataDaCompra,  formaDePagamento, valorDeParcelas[qtdParcelas-1], datasDeVencimento);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "Não foi possível acessar o banco de dados");
+				e.printStackTrace();
+			}
 		}
-		
 	}
 }
