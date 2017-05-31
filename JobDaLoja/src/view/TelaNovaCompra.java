@@ -496,4 +496,14 @@ public class TelaNovaCompra extends JFrame {
 			comboBoxParcelasCrediario.addItem(parcela);
 		}
 	}
+	
+	public class ConfirmarCompraAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 }

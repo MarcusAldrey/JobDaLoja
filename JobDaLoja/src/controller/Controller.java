@@ -33,8 +33,25 @@ public class Controller {
 		user.execute();
 	}
 	
-	public void novaCompra(String CPFcomprador, float valorTotal, Date dataDeVencimento) {
-		
+	public void novaCompra(String nomeComprador, float valorTotal, String dataCompra, String formaDePagamento, float valorParcela, Date[] datasDeVencimento) throws SQLException {
+		PreparedStatement compra = con.prepareStatement("INSERT INTO Compras VALUES (?,?,?,?,?)");
+		compra.setString(2, nomeComprador);
+		compra.setString(3, converterPadToSql(dataCompra));
+		compra.setFloat(4, valorTotal);
+		compra.setString(5, formaDePagamento);
+		compra.execute();
+		Statement statement = con.createStatement();
+		ResultSet rs = statement.executeQuery("SELECT IDCompra FROM Compras WHERE NomeComprador = '" + nomeComprador + "' AND Data = '" + dataCompra + "' AND ValorTotal = " + valorTotal + " AND Forma de Pagamento = '" + formaDePagamento + "'");
+		int idCompra = rs.getInt(0);
+		if(formaDePagamento.equals("crediario")) {
+			for(int i = 0; i < datasDeVencimento.length; i++) {
+				PreparedStatement parcelas = con.prepareStatement("INSERT INTO Parcelas VALUES (?,?,?,?,?)");
+				parcelas.setInt(2, idCompra);
+				parcelas.setFloat(3, valorParcela);
+				parcelas.setFloat(4, 0);
+				parcelas.setDate(5, datasDeVencimento[i]);
+			}
+		}
 	}
 	
 	public void getCPFdeComprador(String nome) {
