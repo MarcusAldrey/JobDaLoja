@@ -43,7 +43,10 @@ public class TelaCliente extends JFrame {
 	private JPanel contentPane;
 	private JTable tableCompras;
 	private JTable tableParcelas;
-
+	private int IDCompraAtual;
+	Object[][] valoresCompras;
+	JScrollPane scrollPaneParcelas;
+	
 	/**
 	 * Create the frame.
 	 * @throws SQLException 
@@ -133,22 +136,27 @@ public class TelaCliente extends JFrame {
 		int count = 0;
 		while (compras.next())
 			++count;
-		Object[][] valoresCompras = new Object[count][4];	
+		valoresCompras = new Object[count][4];	
 		compras = Controller.getCompras(nome);
 		if(count > 0) {
 			int cont = 0;
 			while(compras.next()) {
-				for(int z = 0; z<3; z++)
+				for(int z = 0; z<4; z++)
 					if(z==1)
 						valoresCompras[cont][z] = Controller.converterSqlToPad(compras.getString(z+1));
+					else if(z==2)
+						valoresCompras[cont][z] = compras.getString(z+1);
 					else
 						valoresCompras[cont][z] = compras.getString(z+1);
 				cont++;
 			}
 		}
-		String[] columnNames = {"ID", "Data", "Valor Total"};
+		String[] columnNames = {"ID", "Data", "Valor Total", "Forma de Pagamento"};
 		tableCompras = new JTable(valoresCompras, columnNames);
 		tableCompras.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tableCompras.getColumnModel().getColumn(0).setPreferredWidth(17);
+		tableCompras.getColumnModel().getColumn(1).setPreferredWidth(25);
+		tableCompras.getColumnModel().getColumn(2).setPreferredWidth(50);
 		tableCompras.setRowHeight(30);
 		tableCompras.setRowSelectionAllowed(true);
 		
@@ -188,26 +196,17 @@ public class TelaCliente extends JFrame {
 		lblNewLabel.setBounds(85, 11, 130, 14);
 		panel.add(lblNewLabel);
 
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(10, 86, 280, 351);
-		panel.add(scrollPane_2);
+		scrollPaneParcelas = new JScrollPane();
+		scrollPaneParcelas.setBounds(10, 61, 280, 376);
+		panel.add(scrollPaneParcelas);
 
 		tableParcelas = new JTable();
-		scrollPane_2.setViewportView(tableParcelas);
-
-		JLabel lblFormaDePagamento = new JLabel("Forma de pagamento:");
-		lblFormaDePagamento.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblFormaDePagamento.setBounds(10, 36, 124, 14);
-		panel.add(lblFormaDePagamento);
+		scrollPaneParcelas.setViewportView(tableParcelas);
 
 		JLabel lblParcelas = new JLabel("Parcelas");
-		lblParcelas.setBounds(10, 61, 88, 14);
+		lblParcelas.setBounds(10, 36, 88, 14);
 		panel.add(lblParcelas);
 		lblParcelas.setFont(new Font("Tahoma", Font.BOLD, 12));
-		
-		JLabel lblformapag = new JLabel("Forma de Pagamento");
-		lblformapag.setBounds(144, 36, 146, 14);
-		panel.add(lblformapag);
 
 		JLabel lblAniversrio = new JLabel("Anivers\u00E1rio:");
 		lblAniversrio.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -258,13 +257,55 @@ public class TelaCliente extends JFrame {
 		@Override
 		public void valueChanged(ListSelectionEvent arg0) {
 			// TODO Auto-generated method stub
-			
+			if(arg0.getValueIsAdjusting()) {
+				IDCompraAtual = Integer.parseInt(tableCompras.getValueAt(tableCompras.getSelectedRow(), 0).toString());
+				System.out.println(IDCompraAtual);
+			}
+			try {
+				atualizarTabela(IDCompraAtual);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "Não foi possível acessar o banco de dados");
+				e.printStackTrace();
+			}
 		}
 
 		
 	}
 	
-	private void atualizarInformacoes() {
-
+	private void atualizarTabela(int id) throws SQLException {
+		ResultSet parcelas = Controller.getParcelas(id);
+		int size = 0;
+		while (parcelas.next())
+			++size;
+		Object[][] valoresCompras = new Object[size][4];	
+		parcelas = Controller.getParcelas(id);
+		if(size > 0) {
+			int cont = 0;
+			while(parcelas.next()) {
+				for(int z = 0; z<4; z++)
+					if(z==3)
+						valoresCompras[cont][z] = Controller.converterSqlToPad(parcelas.getString(z+1));
+					else if(z==0)
+						valoresCompras[cont][z] = parcelas.getString(z+1);
+					else
+						valoresCompras[cont][z] = parcelas.getString(z+1);
+				cont++;
+			}
+		}
+		String[] columnNames = {"ID", "Valor Total", "Valor Pago", "Vencimento"};
+		tableParcelas = new JTable(valoresCompras, columnNames);
+		tableParcelas.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tableParcelas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				int IdParcela = Integer.parseInt((String) tableParcelas.getValueAt(tableParcelas.getSelectedRow(), 0));
+				System.out.println(IdParcela);
+			}
+		});
+		scrollPaneParcelas.setViewportView(tableParcelas);
+		tableParcelas.repaint();
 	}
 }

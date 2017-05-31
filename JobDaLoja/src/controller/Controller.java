@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import model.Compra;
@@ -87,6 +89,14 @@ public class Controller {
 		return rs;
 	}
 
+	public static ResultSet getAniversariantes() throws SQLException{
+		Calendar c = Calendar.getInstance();
+		String mesAtual = String.format("%02d", c.get(Calendar.MONTH)+1);
+		Statement statement = con.createStatement();
+		ResultSet rs = statement.executeQuery("SELECT Nome,DataDeNascimento FROM C.lientes WHERE DataDeNascimento REGEXP BINARY '\\d{4}-("+mesAtual+")-\\d{2}'");
+		System.out.println(rs.getString(1)+"  "+rs.getString(2));
+		return rs;
+	}
 	public static String converterPadToSql(String data) {
 		String dia = data.substring(0, 2);
 		String mes = data.substring(3,5);
