@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -20,20 +22,13 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JToggleButton;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.ImageIcon;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
 import javax.swing.JTable;
-import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 
@@ -49,7 +44,8 @@ public class TelaCliente extends JFrame {
 	private int IDCompraAtual;
 	Object[][] valoresCompras;
 	JScrollPane scrollPaneParcelas;
-	private JTextField textField;
+	private JTextField modifiOutrosDeb;
+	JLabel outrosDebitos;
 	
 	/**
 	 * Create the frame.
@@ -217,10 +213,11 @@ public class TelaCliente extends JFrame {
 		lblOutrosDbitos.setBounds(10, 52, 97, 14);
 		panel.add(lblOutrosDbitos);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 93, 45, 27);
-		panel.add(textField);
-		textField.setColumns(10);
+		modifiOutrosDeb = new JTextField();
+		modifiOutrosDeb.setBounds(10, 93, 45, 27);
+		panel.add(modifiOutrosDeb);
+		modifiOutrosDeb.addKeyListener(new OnlyDigits());
+		modifiOutrosDeb.setColumns(10);
 		
 		JButton btnAddOutrosdeb = new JButton("");
 		btnAddOutrosdeb.setBounds(65, 93, 30, 27);
@@ -237,10 +234,10 @@ public class TelaCliente extends JFrame {
 		lblNewLabel_1.setBounds(120, 52, 26, 14);
 		panel.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("0");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_2.setBounds(145, 52, 57, 14);
-		panel.add(lblNewLabel_2);
+		outrosDebitos = new JLabel("0");
+		outrosDebitos.setFont(new Font("Tahoma", Font.BOLD, 12));
+		outrosDebitos.setBounds(145, 52, 57, 14);
+		panel.add(outrosDebitos);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 149, 280, 2);
@@ -349,5 +346,42 @@ public class TelaCliente extends JFrame {
 		});
 		scrollPaneParcelas.setViewportView(tableParcelas);
 		tableParcelas.repaint();
+	}
+	
+	private void atualizarOutrosDebitos(float value, int modificator) {
+		float valorAtual = Float.parseFloat(outrosDebitos.getText());
+		float modifi = Float.parseFloat(modifiOutrosDeb.getText());
+		float novoValor = 0;
+		if(modificator == 1) {
+			novoValor = valorAtual + modifi;
+		}
+		else if(modificator == 2) {
+			novoValor = valorAtual - modifi;
+		}
+	}
+	
+	public class OnlyDigits implements KeyListener {
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			char c = e.getKeyChar();
+			if(!(Character.isDigit(c)|| c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_PERIOD)){
+				e.consume();			
+			}
+
+		}
+
 	}
 }
