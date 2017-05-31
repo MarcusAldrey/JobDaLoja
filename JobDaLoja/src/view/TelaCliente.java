@@ -256,27 +256,14 @@ public class TelaCliente extends JFrame {
 	public class ListenerParcelas implements ListSelectionListener {
 
 		@Override
-		public void valueChanged(ListSelectionEvent e) {
+		public void valueChanged(ListSelectionEvent arg0) {
 			// TODO Auto-generated method stub
-			int count = 0;
-			while (compras.next())
-				++count;
-			Object[][] valoresCompras = new Object[count][4];	
-			compras = Controller.getCompras(nome);
-			if(count > 0) {
-				int cont = 0;
-				while(compras.next()) {
-					for(int z = 0; z<3; z++)
-						if(z==1)
-							valoresCompras[cont][z] = Controller.converterSqlToPad(compras.getString(z+1));
-						else
-							valoresCompras[cont][z] = compras.getString(z+1);
-					cont++;
-				}
-			}
+			
 		}
+
 		
 	}
+	
 	private void atualizarInformacoes() {
 
 	}
