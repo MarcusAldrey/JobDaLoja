@@ -206,4 +206,8 @@ public class TelaInicio extends JFrame {
 			System.exit(0);
 		}
 	}
+	
+	private void atualizarTabela() {
+		
+	}
 }
