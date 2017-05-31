@@ -33,6 +33,9 @@ import javax.swing.Box;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
+import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
+import javax.swing.JSeparator;
 
 public class TelaCliente extends JFrame {
 
@@ -46,6 +49,7 @@ public class TelaCliente extends JFrame {
 	private int IDCompraAtual;
 	Object[][] valoresCompras;
 	JScrollPane scrollPaneParcelas;
+	private JTextField textField;
 	
 	/**
 	 * Create the frame.
@@ -190,23 +194,61 @@ public class TelaCliente extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Detalhes");
+		JLabel lblNewLabel = new JLabel("Pagamentos");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setBounds(85, 11, 130, 14);
 		panel.add(lblNewLabel);
 
 		scrollPaneParcelas = new JScrollPane();
-		scrollPaneParcelas.setBounds(10, 61, 280, 376);
+		scrollPaneParcelas.setBounds(10, 187, 280, 250);
 		panel.add(scrollPaneParcelas);
 
 		tableParcelas = new JTable();
 		scrollPaneParcelas.setViewportView(tableParcelas);
 
 		JLabel lblParcelas = new JLabel("Parcelas");
-		lblParcelas.setBounds(10, 36, 88, 14);
+		lblParcelas.setBounds(10, 162, 88, 14);
 		panel.add(lblParcelas);
 		lblParcelas.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		JLabel lblOutrosDbitos = new JLabel("Outros D\u00E9bitos:");
+		lblOutrosDbitos.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblOutrosDbitos.setBounds(10, 52, 97, 14);
+		panel.add(lblOutrosDbitos);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 93, 45, 27);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnAddOutrosdeb = new JButton("");
+		btnAddOutrosdeb.setBounds(65, 93, 30, 27);
+		panel.add(btnAddOutrosdeb);
+		btnAddOutrosdeb.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/plus.png")));
+		
+		JButton btnLessOutroDeb = new JButton("");
+		btnLessOutroDeb.setBounds(105, 93, 30, 27);
+		panel.add(btnLessOutroDeb);
+		btnLessOutroDeb.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/minus-symbol-inside-a-circle.png")));
+		
+		JLabel lblNewLabel_1 = new JLabel("R$");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1.setBounds(120, 52, 26, 14);
+		panel.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("0");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_2.setBounds(145, 52, 57, 14);
+		panel.add(lblNewLabel_2);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 149, 280, 2);
+		panel.add(separator);
+		btnAddOutrosdeb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 
 		JLabel lblAniversrio = new JLabel("Anivers\u00E1rio:");
 		lblAniversrio.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -218,7 +260,7 @@ public class TelaCliente extends JFrame {
 		if(!(niver == null)) 
 			niverTxt = new JLabel(Controller.converterSqlToPad(niver));
 		niverTxt.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		niverTxt.setBounds(97, 105, 115, 16);
+		niverTxt.setBounds(97, 105, 277, 16);
 		contentPane.add(niverTxt);
 
 		JLabel label_1 = new JLabel((String) null);
@@ -233,7 +275,7 @@ public class TelaCliente extends JFrame {
 
 		JLabel enderecoCliente = new JLabel();
 		enderecoCliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		enderecoCliente.setBounds(85, 127, 289, 16);
+		enderecoCliente.setBounds(85, 127, 106, 16);
 
 		JLabel restoEndereco = new JLabel();
 		restoEndereco.setText("<dynamic>");
