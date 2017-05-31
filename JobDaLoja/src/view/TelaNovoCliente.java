@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -170,9 +172,11 @@ public class TelaNovoCliente extends JFrame {
 		contentPane.add(textBairro);
 		
 		textNumero = new JTextField();
+		textNumero.setText("0");
 		textNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textNumero.setBounds(225, 204, 65, 20);
 		contentPane.add(textNumero);
+		textNumero.addKeyListener(new OnlyDigits());
 		textNumero.setColumns(10);
 		
 		JLabel lblN = new JLabel("N\u00BA:");
@@ -288,6 +292,31 @@ public class TelaNovoCliente extends JFrame {
 			comboBoxEstado.setSelectedIndex(4);
 		}
 		
+	}
+	
+	public class OnlyDigits implements KeyListener {
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			char c = e.getKeyChar();
+			if(!(Character.isDigit(c)|| c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)){
+				e.consume();			
+			}
+
+		}
+
 	}
 	
 	private void fecharTela() {

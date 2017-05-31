@@ -40,7 +40,7 @@ public class Controller {
 		compra.setString(2, nomeComprador);
 		compra.setString(3, converterPadToSql(dataCompra));
 		compra.setFloat(4, valorTotal);
-		compra.setString(5, formaDePagamento + " - " + datasDeVencimento.length + "X");
+		compra.setString(5, formaDePagamento);
 		compra.execute();
 		Statement statement = con.createStatement();
 		ResultSet rs = statement.executeQuery("SELECT IDCompra FROM Compras WHERE NomeComprador = '" + nomeComprador + "' AND Data = '" + converterPadToSql(dataCompra) + "' AND ValorTotal = "+valorTotal);
@@ -66,7 +66,7 @@ public class Controller {
 
 	public static ResultSet getCliente(String nome) throws SQLException, ClassNotFoundException {
 		Statement clientes = con.createStatement();
-		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone, DataDeNascimento, Endereco FROM Clientes WHERE Nome='" + nome + "'");
+		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone, DataDeNascimento, Endereco, OutrosDebitos FROM Clientes WHERE Nome='" + nome + "'");
 		return rs;		
 	}
 
@@ -143,6 +143,29 @@ public class Controller {
 
 		String dataFormatada = dia + "/" + mes + "/" + ano;
 		return dataFormatada;
+	}
+
+	public static void atualizarValorPagoParcela(int iDParcela, float novoValor) throws SQLException {
+		// TODO Auto-generated method stub
+		Statement statement = con.createStatement();
+		statement.execute("UPDATE Parcelas SET ValorPago = "+ novoValor + " WHERE IdParcela = " + iDParcela);
+	}
+	
+	public static void atualizarParcelaPaga(int iDParcela, boolean pago) throws SQLException {
+		// TODO Auto-generated method stub
+		Statement statement = con.createStatement();
+		int n;
+		if(pago == true)
+			n=1;
+		else 
+			n=0;
+		statement.execute("UPDATE Parcelas SET Pago = "+ n + " WHERE IdParcela = " + iDParcela);
+	}
+
+	public static void atualizarOutrosDebitos(String nomeCliente, float novoValor) throws SQLException {
+		// TODO Auto-generated method stub
+		Statement statement = con.createStatement();
+		statement.execute("UPDATE Clientes SET OutrosDebitos = "+ novoValor + " WHERE Nome = '" + nomeCliente + "'");
 	}
 
 }

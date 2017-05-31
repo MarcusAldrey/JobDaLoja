@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
@@ -43,16 +44,19 @@ public class TelaCliente extends JFrame {
 	private JTable tableParcelas;
 	private int IDCompraAtual;
 	Object[][] valoresCompras;
+	Object[][] valoresParcelas;
 	JScrollPane scrollPaneParcelas;
 	private JTextField modifiOutrosDeb;
 	JLabel outrosDebitos;
-	
+	String nomeCliente;
+
 	/**
 	 * Create the frame.
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
 	public TelaCliente(String nome) throws SQLException, ClassNotFoundException {
+		nomeCliente = nome;
 		URL url = this.getClass().getResource("logo.jpg"); 
 		Image iconeTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		this.setIconImage(iconeTitulo);		
@@ -159,9 +163,9 @@ public class TelaCliente extends JFrame {
 		tableCompras.getColumnModel().getColumn(2).setPreferredWidth(50);
 		tableCompras.setRowHeight(30);
 		tableCompras.setRowSelectionAllowed(true);
-		
+
 		tableCompras.getSelectionModel().addListSelectionListener(new ListenerParcelas());
-		
+
 		scrollPane.setViewportView(tableCompras);
 
 		JButton btnNovaCompra = new JButton("Nova Compra");
@@ -172,6 +176,7 @@ public class TelaCliente extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				dispose();
 				JFrame frame = null;
 				try {
 					frame = new TelaNovaCompra(rs.getString(1));
@@ -197,7 +202,7 @@ public class TelaCliente extends JFrame {
 		panel.add(lblNewLabel);
 
 		scrollPaneParcelas = new JScrollPane();
-		scrollPaneParcelas.setBounds(10, 187, 280, 250);
+		scrollPaneParcelas.setBounds(10, 187, 280, 200);
 		panel.add(scrollPaneParcelas);
 
 		tableParcelas = new JTable();
@@ -207,38 +212,59 @@ public class TelaCliente extends JFrame {
 		lblParcelas.setBounds(10, 162, 88, 14);
 		panel.add(lblParcelas);
 		lblParcelas.setFont(new Font("Tahoma", Font.BOLD, 12));
-		
+
 		JLabel lblOutrosDbitos = new JLabel("Outros D\u00E9bitos:");
 		lblOutrosDbitos.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblOutrosDbitos.setBounds(10, 52, 97, 14);
 		panel.add(lblOutrosDbitos);
-		
+
 		modifiOutrosDeb = new JTextField();
 		modifiOutrosDeb.setBounds(10, 93, 45, 27);
 		panel.add(modifiOutrosDeb);
 		modifiOutrosDeb.addKeyListener(new OnlyDigits());
 		modifiOutrosDeb.setColumns(10);
-		
+
 		JButton btnAddOutrosdeb = new JButton("");
 		btnAddOutrosdeb.setBounds(65, 93, 30, 27);
 		panel.add(btnAddOutrosdeb);
+		btnAddOutrosdeb.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				atualizarOutrosDebitos(1);
+				modifiOutrosDeb.setText("");
+			}
+		});
 		btnAddOutrosdeb.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/plus.png")));
-		
+
 		JButton btnLessOutroDeb = new JButton("");
 		btnLessOutroDeb.setBounds(105, 93, 30, 27);
 		panel.add(btnLessOutroDeb);
+		btnLessOutroDeb.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				atualizarOutrosDebitos(2);
+				modifiOutrosDeb.setText("");
+			}
+		});
 		btnLessOutroDeb.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/minus-symbol-inside-a-circle.png")));
-		
+
 		JLabel lblNewLabel_1 = new JLabel("R$");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1.setBounds(120, 52, 26, 14);
 		panel.add(lblNewLabel_1);
-		
-		outrosDebitos = new JLabel("0");
+
+		if(rs.getString(6) != null)
+			outrosDebitos = new JLabel(rs.getString(6));
+		else
+			outrosDebitos = new JLabel("0");
 		outrosDebitos.setFont(new Font("Tahoma", Font.BOLD, 12));
 		outrosDebitos.setBounds(145, 52, 57, 14);
 		panel.add(outrosDebitos);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 149, 280, 2);
 		panel.add(separator);
@@ -280,6 +306,12 @@ public class TelaCliente extends JFrame {
 		restoEndereco.setBounds(10, 144, 289, 16);
 		contentPane.add(restoEndereco);
 
+		JButton btnSalvarMudanEmParcelas = new JButton("Salvar Mudan\u00E7as");
+		btnSalvarMudanEmParcelas.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/1493128621_Checkmark.png")));
+		btnSalvarMudanEmParcelas.setBounds(65, 398, 170, 45);
+		btnSalvarMudanEmParcelas.addActionListener(new SalvarMudancasEmParcelasAction());
+		panel.add(btnSalvarMudanEmParcelas);
+
 		String endereco = rs.getString(5);
 		String resto = "";
 		if(endereco.length() > 45)
@@ -309,34 +341,75 @@ public class TelaCliente extends JFrame {
 			}
 		}
 
-		
+
 	}
-	
+
+	public class SalvarMudancasEmParcelasAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			int quantidadeParcelas = valoresParcelas.length;
+			for(int i = 0; i<quantidadeParcelas; i++) {
+				int IDParcela = Integer.parseInt((String) valoresParcelas[i][0]);
+				float totalParcela = Float.parseFloat(((String) valoresParcelas[i][1]));
+				float novoValor = Float.parseFloat((String) tableParcelas.getValueAt(i, 2));
+				if(novoValor > totalParcela) {
+					JOptionPane.showMessageDialog(null, "O valor que você inseriu (" + novoValor + ") é maior que o valor da parcela, isso não é permitido!");
+					return;
+				}
+				if(novoValor == totalParcela)
+					try {
+						Controller.atualizarParcelaPaga(IDParcela, true);
+					} catch (SQLException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				else if(novoValor < totalParcela)
+					try {
+						Controller.atualizarParcelaPaga(IDParcela, false);
+					} catch (SQLException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				try {
+					Controller.atualizarValorPagoParcela(IDParcela, novoValor);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Não foi possível acessar o bando de dados");
+					e1.printStackTrace();
+				}
+			}
+			JOptionPane.showMessageDialog(null, "Valores salvos com sucesso!");
+		}
+
+	}
+
 	private void atualizarTabela(int id) throws SQLException {
 		ResultSet parcelas = Controller.getParcelas(id);
 		int size = 0;
 		while (parcelas.next())
 			++size;
-		Object[][] valoresCompras = new Object[size][4];	
+		valoresParcelas = new Object[size][4];	
 		parcelas = Controller.getParcelas(id);
 		if(size > 0) {
 			int cont = 0;
 			while(parcelas.next()) {
 				for(int z = 0; z<4; z++)
 					if(z==3)
-						valoresCompras[cont][z] = Controller.converterSqlToPad(parcelas.getString(z+1));
+						valoresParcelas[cont][z] = Controller.converterSqlToPad(parcelas.getString(z+1));
 					else if(z==0)
-						valoresCompras[cont][z] = parcelas.getString(z+1);
+						valoresParcelas[cont][z] = parcelas.getString(z+1);
 					else
-						valoresCompras[cont][z] = parcelas.getString(z+1);
+						valoresParcelas[cont][z] = parcelas.getString(z+1);
 				cont++;
 			}
 		}
 		String[] columnNames = {"ID", "Valor Total", "Valor Pago", "Vencimento"};
-		tableParcelas = new JTable(valoresCompras, columnNames);
+		tableParcelas = new JTable(valoresParcelas, columnNames);
 		tableParcelas.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tableParcelas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			
+
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
@@ -347,8 +420,8 @@ public class TelaCliente extends JFrame {
 		scrollPaneParcelas.setViewportView(tableParcelas);
 		tableParcelas.repaint();
 	}
-	
-	private void atualizarOutrosDebitos(float value, int modificator) {
+
+	private void atualizarOutrosDebitos(int modificator) {
 		float valorAtual = Float.parseFloat(outrosDebitos.getText());
 		float modifi = Float.parseFloat(modifiOutrosDeb.getText());
 		float novoValor = 0;
@@ -358,8 +431,16 @@ public class TelaCliente extends JFrame {
 		else if(modificator == 2) {
 			novoValor = valorAtual - modifi;
 		}
+		try {
+			Controller.atualizarOutrosDebitos(nomeCliente, novoValor);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, "Não foi possível acessar o banco de dados");
+			e.printStackTrace();
+		}
+		outrosDebitos.setText(Float.toString(novoValor));		
 	}
-	
+
 	public class OnlyDigits implements KeyListener {
 
 		@Override

@@ -503,6 +503,8 @@ public class TelaNovaCompra extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
+			if(valorTotalCompra == 0 || valorTotalCompra < 0)
+				return;
 			int qtdParcelas = comboBoxParcelasCrediario.getSelectedIndex() + 1;
 
 			String dataDaCompra;
@@ -545,7 +547,10 @@ public class TelaNovaCompra extends JFrame {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null, "Não foi possível acessar o banco de dados");
 				e.printStackTrace();
+				return;
 			}
+			JOptionPane.showMessageDialog(null, "Compra salva com sucesso!");
+			dispose();
 		}
 	}
 }
