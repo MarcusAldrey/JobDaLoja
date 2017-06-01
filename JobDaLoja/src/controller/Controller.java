@@ -230,7 +230,7 @@ public class Controller {
 			String email) throws SQLException {
 		// TODO Auto-generated method stub
 		if(!datanasc.matches(("\\d{2}/\\d{2}/\\d{4}"))) {
-			JOptionPane.showMessageDialog(null, "Data de Nascimento em formato errado!");
+			JOptionPane.showMessageDialog(null, "Data de Nascimento em formato errado! Não foi possível alterar as informações do cliente.");
 			return;
 		}
 		datanasc = converterPadToSql(datanasc);
