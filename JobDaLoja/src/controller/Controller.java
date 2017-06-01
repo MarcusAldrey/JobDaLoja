@@ -16,7 +16,8 @@ import util.DataBase;
 public class Controller {
 
 	private static Connection con;
-
+	private static int tamanhoRetorno;
+	
 	public Controller() throws ClassNotFoundException, SQLException {
 		con = DataBase.getConnection();
 	}
@@ -89,11 +90,28 @@ public class Controller {
 		return rs;
 	}
 
+	
 	public static ResultSet getAniversariantes() throws SQLException{
 		Calendar c = Calendar.getInstance();
 		String mesAtual = String.format("%02d", c.get(Calendar.MONTH)+1);
 		Statement statement = con.createStatement();
+		ResultSet tamanho = statement.executeQuery("SELECT COUNT (Nome) FROM Clientes WHERE DataDeNascimento LIKE '____-"+mesAtual+"-__'");
+		tamanhoRetorno = tamanho.getInt(1);
+		
 		ResultSet rs = statement.executeQuery("SELECT Nome,DataDeNascimento FROM Clientes WHERE DataDeNascimento LIKE '____-"+mesAtual+"-__'");
+		return rs;
+	}
+	
+	public static ResultSet getAniversarianteDia() throws SQLException{
+		Calendar c = Calendar.getInstance();
+		String mesAtual = String.format("%02d", c.get(Calendar.MONTH)+1);
+		String diaAtual = String.format("%02d", c.get(Calendar.DAY_OF_MONTH));
+		Statement statement = con.createStatement();
+		
+		ResultSet tamanho = statement.executeQuery("SELECT Nome,DataDeNascimento FROM Clientes WHERE DataDeNascimento LIKE '____-"+mesAtual+"-"+diaAtual+"'");
+		tamanhoRetorno = tamanho.getInt(1);
+		
+		ResultSet rs = statement.executeQuery("SELECT DataDeNascimento FROM Clientes WHERE DataDeNascimento LIKE '____-"+mesAtual+"-"+diaAtual+"'");
 		return rs;
 	}
 	
@@ -194,5 +212,10 @@ public class Controller {
 		else if(modificador == 2) 
 			rs = statement.executeQuery("SELECT IdCompra, ValorTotal, ValorPago, Vencimento FROM Parcelas WHERE Vencimento < '" + dataAtual + "' AND Pago = 0");
 		return rs;
+	}
+
+	public static int getTamanhoRetorno() {
+		// TODO Auto-generated method stub
+		return tamanhoRetorno;
 	}
 }
