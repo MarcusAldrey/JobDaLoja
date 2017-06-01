@@ -24,8 +24,8 @@ public class SplashScreen extends JWindow {
 	public void mostrarSplash() {        
 		JPanel content = (JPanel)getContentPane();
 		// Configura a posição e o tamanho da janela
-		int largura = 720;
-		int altura = 308;
+		int largura = 710;
+		int altura = 300;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screen.width-largura)/2;
 		int y = (screen.height-altura)/2;

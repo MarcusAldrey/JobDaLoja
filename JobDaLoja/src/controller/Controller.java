@@ -10,6 +10,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.Compra;
 import util.DataBase;
 
@@ -222,5 +224,14 @@ public class Controller {
 	public static int getTamanhoRetorno() {
 		// TODO Auto-generated method stub
 		return tamanhoRetorno;
+	}
+
+	public static void editarDadosCliente(String nome, String cpf, String telefone, String datanasc, String endereco,
+			String email) {
+		// TODO Auto-generated method stub
+		if(!datanasc.matches(("\\d{2}/\\d{2}/\\d{4}")))
+			JOptionPane.showMessageDialog(null, "Data de Nascimento em formato errado!");
+			return;
+		
 	}
 }
