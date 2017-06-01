@@ -109,8 +109,12 @@ public class Controller {
 		String diaAtual = String.format("%02d", c.get(Calendar.DAY_OF_MONTH));
 		Statement statement = con.createStatement();
 		
-		ResultSet tamanho = statement.executeQuery("SELECT Nome,DataDeNascimento FROM Clientes WHERE DataDeNascimento LIKE '____-"+mesAtual+"-"+diaAtual+"'");
-		tamanhoRetorno = tamanho.getInt(1);
+		ResultSet tamanho = statement.executeQuery("SELECT COUNT (Nome) FROM Clientes WHERE DataDeNascimento LIKE '____-"+mesAtual+"-__'");
+		if(tamanho.next()){
+			tamanhoRetorno = tamanho.getInt(1);
+		}else{
+			tamanhoRetorno = 0;
+		}
 		
 		ResultSet rs = statement.executeQuery("SELECT DataDeNascimento FROM Clientes WHERE DataDeNascimento LIKE '____-"+mesAtual+"-"+diaAtual+"'");
 		return rs;

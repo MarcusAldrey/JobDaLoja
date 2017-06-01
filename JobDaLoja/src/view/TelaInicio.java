@@ -121,6 +121,7 @@ public class TelaInicio extends JFrame {
 		JLabel NotificacaoNiver = new JLabel("");
 		NotificacaoNiver.setIcon(new ImageIcon(TelaInicio.class.getResource("/view/warning.png")));
 		NotificacaoNiver.setBounds(281, 354, 46, 42);
+		NotificacaoNiver.setVisible(false);
 		contentPane.add(NotificacaoNiver, new Integer(2));
 		contentPane.add(botaoSair);
 		contentPane.add(botaoCliente);
@@ -143,6 +144,10 @@ public class TelaInicio extends JFrame {
 		btnAniversrios.setBounds(101, 368, 200, 70);
 		btnAniversrios.addActionListener(new AniversariosAction());
 		contentPane.add(btnAniversrios);
+		ResultSet niver = Controller.getAniversarianteDia();
+		if(Controller.getTamanhoRetorno()>0){
+			NotificacaoNiver.setVisible(true);
+		}
 		
 		ResultSet rs = Controller.getComprasVencidas(1);
 		if(rs.next())
