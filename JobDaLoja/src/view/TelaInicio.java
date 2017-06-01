@@ -42,8 +42,8 @@ public class TelaInicio extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		//SplashScreen splash = new SplashScreen(5000);
-		//splash.mostrarSplashESair();
+		SplashScreen splash = new SplashScreen(5000);
+		splash.mostrarSplashESair();
 		try {
 			new Controller();
 		} catch (ClassNotFoundException e1) {
@@ -132,7 +132,7 @@ public class TelaInicio extends JFrame {
 		
 		JLabel label = new JLabel("");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setIcon(new ImageIcon(TelaInicio.class.getResource("/view/f65ef0d8-572b-4a47-9791-b63fa017c01e.jpg")));
+		label.setIcon(new ImageIcon(TelaInicio.class.getResource("/view/qota.png")));
 		label.setBounds(10, 11, 374, 103);
 		contentPane.add(label);
 		JButton botaoVencimentos = new JButton("Vencimentos", new ImageIcon(TelaInicio.class.getResource("/view/iconeVencimento.png")));

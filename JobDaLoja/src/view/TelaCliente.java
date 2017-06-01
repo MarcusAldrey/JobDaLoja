@@ -10,15 +10,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
@@ -26,7 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.Action;
+import javax.swing.text.MaskFormatter;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
@@ -49,7 +51,17 @@ public class TelaCliente extends JFrame {
 	private JTextField modifiOutrosDeb;
 	JLabel outrosDebitos;
 	String nomeCliente;
-
+	JButton buttonSalvarEdicao;
+	JButton buttonEditar;
+	JTextField lblClientname;
+	JTextField lblCpfCliente;
+	JTextField lbllTelefoneCliente;
+	JTextField lblniverTxt;
+	JTextField lblenderecoCliente;
+	JTextField lbltextEmail;
+	Border bordaPadrao;
+	Color bgpadrao;
+	
 	/**
 	 * Create the frame.
 	 * @throws SQLException 
@@ -74,47 +86,60 @@ public class TelaCliente extends JFrame {
 		contentPane.setLayout(null);
 
 		ResultSet rs = Controller.getCliente(nome);
+		
+		buttonEditar = new JButton("");
+		buttonEditar.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/pencil.png")));
+		buttonEditar.setBounds(334, 39, 40, 35);
+		buttonEditar.addActionListener(new StartEditionAction());
+		
+		buttonSalvarEdicao = new JButton("");
+		buttonSalvarEdicao.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/pencil (1).png")));
+		buttonSalvarEdicao.setBounds(334, 82, 40, 35);
+		buttonSalvarEdicao.setVisible(false);
+		buttonSalvarEdicao.addActionListener(new EndEditionAction());
+		contentPane.add(buttonSalvarEdicao);
+		contentPane.add(buttonEditar);
 
 
-		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(10, 39, 46, 16);
-		lblNome.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblNome);
+		JLabel lbl_Nome = new JLabel("Nome:");
+		lbl_Nome.setBounds(10, 39, 46, 16);
+		lbl_Nome.setFont(new Font("Tahoma", Font.BOLD, 14));
+		contentPane.add(lbl_Nome);
 
-		JLabel lblClientname = new JLabel(rs.getString(1));
-		lblClientname.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblClientname.setBounds(60, 39, 314, 16);
+		lblClientname = new JTextField(rs.getString(1));
+		lblClientname.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblClientname.setBounds(60, 39, 314, 20);
 		contentPane.add(lblClientname);
 
-		JLabel lblCpf = new JLabel("CPF:");
-		lblCpf.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCpf.setBounds(10, 61, 46, 16);
-		contentPane.add(lblCpf);
+		JLabel lbl_Cpf = new JLabel("CPF:");
+		lbl_Cpf.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbl_Cpf.setBounds(10, 64, 46, 16);
+		contentPane.add(lbl_Cpf);
 
-		JLabel lblCpfCliente = new JLabel(rs.getString(2));
-		lblCpfCliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCpfCliente.setBounds(47, 61, 115, 16);
+		lblCpfCliente = new JTextField(rs.getString(2));
+		lblCpfCliente.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCpfCliente.setBounds(47, 64, 115, 20);
 		contentPane.add(lblCpfCliente);
 
-		JLabel lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTelefone.setBounds(10, 83, 64, 16);
-		contentPane.add(lblTelefone);
+		JLabel lbl_Telefone = new JLabel("Telefone:");
+		lbl_Telefone.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbl_Telefone.setBounds(10, 86, 64, 16);
+		contentPane.add(lbl_Telefone);
 
-		JLabel labelTelefoneCliente = new JLabel(rs.getString(3));
-		labelTelefoneCliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		labelTelefoneCliente.setBounds(79, 83, 115, 16);
-		contentPane.add(labelTelefoneCliente);
+		lbllTelefoneCliente = new JTextField(rs.getString(3));
+		lbllTelefoneCliente.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbllTelefoneCliente.setBounds(79, 86, 115, 20);
+		contentPane.add(lbllTelefoneCliente);
 
 		JLabel lblDadosPessoais = new JLabel("Dados pessoais");
 		lblDadosPessoais.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblDadosPessoais.setBounds(10, 12, 115, 16);
 		contentPane.add(lblDadosPessoais);
 
-		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
-		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEndereo.setBounds(10, 151, 77, 16);
-		contentPane.add(lblEndereo);
+		JLabel lbl_Endereo = new JLabel("Endere\u00E7o:");
+		lbl_Endereo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbl_Endereo.setBounds(10, 154, 77, 16);
+		contentPane.add(lbl_Endereo);
 
 		JLabel lblCompras = new JLabel("Compras");
 		lblCompras.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -179,7 +204,7 @@ public class TelaCliente extends JFrame {
 				dispose();
 				JFrame frame = null;
 				try {
-					frame = new TelaNovaCompra(rs.getString(1));
+					frame = new TelaNovaCompra(nomeCliente);
 				} catch (SQLException | ClassNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, "Não foi possível acessar o bando de dados");
 					e1.printStackTrace();
@@ -273,18 +298,23 @@ public class TelaCliente extends JFrame {
 			}
 		});
 
-		JLabel lblAniversrio = new JLabel("Anivers\u00E1rio:");
-		lblAniversrio.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblAniversrio.setBounds(10, 105, 91, 16);
-		contentPane.add(lblAniversrio);
+		JLabel lbl_Aniversrio = new JLabel("Nascimento");
+		lbl_Aniversrio.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbl_Aniversrio.setBounds(10, 108, 91, 16);
+		contentPane.add(lbl_Aniversrio);
 
 		String niver = rs.getString(4);
-		JLabel niverTxt = new JLabel();
+		try {
+			lblniverTxt = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if(!(niver == null)) 
-			niverTxt = new JLabel(Controller.converterSqlToPad(niver));
-		niverTxt.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		niverTxt.setBounds(97, 105, 277, 16);
-		contentPane.add(niverTxt);
+		lblniverTxt.setText(Controller.converterSqlToPad(niver));
+		lblniverTxt.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblniverTxt.setBounds(97, 108, 97, 20);
+		contentPane.add(lblniverTxt);
 
 		JLabel label_1 = new JLabel((String) null);
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -296,14 +326,14 @@ public class TelaCliente extends JFrame {
 		label.setBounds(105, 108, 115, 16);
 		contentPane.add(label);
 
-		JLabel enderecoCliente = new JLabel();
-		enderecoCliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		enderecoCliente.setBounds(85, 151, 289, 16);
+		lblenderecoCliente = new JTextField();
+		lblenderecoCliente.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblenderecoCliente.setBounds(85, 154, 289, 23);
 
 		JLabel restoEndereco = new JLabel();
 		restoEndereco.setText("<dynamic>");
 		restoEndereco.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		restoEndereco.setBounds(10, 170, 289, 16);
+		restoEndereco.setBounds(10, 181, 289, 16);
 		contentPane.add(restoEndereco);
 
 		JButton btnSalvarMudanEmParcelas = new JButton("Salvar Mudan\u00E7as");
@@ -316,21 +346,50 @@ public class TelaCliente extends JFrame {
 		String resto = "";
 		if(endereco.length() > 45)
 			resto = endereco.substring(44);
-		enderecoCliente.setText(endereco);
+		lblenderecoCliente.setText(endereco);
 		restoEndereco.setText(resto);
-		contentPane.add(enderecoCliente);		
+		contentPane.add(lblenderecoCliente);		
 		
-		JLabel lblEmail = new JLabel("Email: ");
-		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEmail.setBounds(10, 127, 46, 16);
-		contentPane.add(lblEmail);
+		JLabel lbl_Email = new JLabel("Email: ");
+		lbl_Email.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbl_Email.setBounds(10, 130, 46, 16);
+		contentPane.add(lbl_Email);
 		
-		JLabel textEmail = new JLabel(rs.getString(7));
-		textEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textEmail.setBounds(60, 127, 314, 16);
-		contentPane.add(textEmail);
+		lbltextEmail = new JTextField(rs.getString(7));
+		lbltextEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbltextEmail.setBounds(60, 130, 314, 20);
+		contentPane.add(lbltextEmail);
 
 		this.setTitle("La Victoria - Informações de cliente");
+		
+		bordaPadrao = lblClientname.getBorder();
+		bgpadrao = lblClientname.getBackground();
+		
+		lblClientname.setEditable(false);
+		lblCpfCliente.setEditable(false);
+		lbllTelefoneCliente.setEditable(false);
+		lblniverTxt.setEditable(false);
+		lblenderecoCliente.setEditable(false);
+		lbltextEmail.setEditable(false);
+		
+		lblClientname.setBackground(null);
+		lblClientname.setBorder(null);
+		
+		
+		lblCpfCliente.setBackground(null);
+		lblCpfCliente.setBorder(null);
+		
+		lbllTelefoneCliente.setBackground(null);
+		lbllTelefoneCliente.setBorder(null);
+		
+		lblniverTxt.setBackground(null);
+		lblniverTxt.setBorder(null);
+		
+		lblenderecoCliente.setBackground(null);
+		lblenderecoCliente.setBorder(null);
+		
+		lbltextEmail.setBackground(null);
+		lbltextEmail.setBorder(null);
 	}
 
 	public class ListenerParcelas implements ListSelectionListener {
@@ -450,7 +509,89 @@ public class TelaCliente extends JFrame {
 		}
 		outrosDebitos.setText(Float.toString(novoValor));		
 	}
+	
+	public class StartEditionAction implements ActionListener {
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			buttonEditar.setVisible(false);
+			buttonSalvarEdicao.setVisible(true);
+			lblClientname.setEditable(true);
+			lblCpfCliente.setEditable(true);
+			lbllTelefoneCliente.setEditable(true);
+			lblniverTxt.setEditable(true);
+			lblenderecoCliente.setEditable(true);
+			lbltextEmail.setEditable(true);
+			lblClientname.requestFocus();
+			
+			lblClientname.setBackground(bgpadrao);
+			lblClientname.setBorder(bordaPadrao);
+			
+			
+			lblCpfCliente.setBackground(bgpadrao);
+			lblCpfCliente.setBorder(bordaPadrao);
+			
+			lbllTelefoneCliente.setBackground(bgpadrao);
+			lbllTelefoneCliente.setBorder(bordaPadrao);
+			
+			lblniverTxt.setBackground(bgpadrao);
+			lblniverTxt.setBorder(bordaPadrao);
+			
+			lblenderecoCliente.setBackground(bgpadrao);
+			lblenderecoCliente.setBorder(bordaPadrao);
+			
+			lbltextEmail.setBackground(bgpadrao);
+			lbltextEmail.setBorder(bordaPadrao);
+		}
+		
+	}
+	
+	public class EndEditionAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			buttonEditar.setVisible(true);
+			buttonSalvarEdicao.setVisible(false);
+			
+			lblClientname.setEditable(false);
+			lblCpfCliente.setEditable(false);
+			lbllTelefoneCliente.setEditable(false);
+			lblniverTxt.setEditable(false);
+			lblenderecoCliente.setEditable(false);
+			lbltextEmail.setEditable(false);
+			
+			lblClientname.setBackground(null);
+			lblClientname.setBorder(null);
+			
+			
+			lblCpfCliente.setBackground(null);
+			lblCpfCliente.setBorder(null);
+			
+			lbllTelefoneCliente.setBackground(null);
+			lbllTelefoneCliente.setBorder(null);
+			
+			lblniverTxt.setBackground(null);
+			lblniverTxt.setBorder(null);
+			
+			lblenderecoCliente.setBackground(null);
+			lblenderecoCliente.setBorder(null);
+			
+			lbltextEmail.setBackground(null);
+			lbltextEmail.setBorder(null);
+			try {
+				Controller.editarDadosCliente(nomeCliente, lblClientname.getText(),lblCpfCliente.getText(),lbllTelefoneCliente.getText(),lblniverTxt.getText(),lblenderecoCliente.getText(), lbltextEmail.getText());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Não foi possível alterar as informações do cliente");
+				return;
+			}
+			nomeCliente = lblClientname.getText();		
+		}
+		
+	}
 	public class OnlyDigits implements KeyListener {
 
 		@Override

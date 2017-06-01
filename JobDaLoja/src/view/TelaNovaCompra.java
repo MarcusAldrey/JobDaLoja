@@ -169,7 +169,7 @@ public class TelaNovaCompra extends JFrame {
 		contentPane.add(comboBoxParcelasCrediario);
 
 		JButton btnVoltar = new JButton("Cancelar");
-		btnVoltar.setIcon(new ImageIcon(TelaNovaCompra.class.getResource("/view/1493125655_Artboard_1.png")));
+		btnVoltar.setIcon(new ImageIcon(TelaNovaCompra.class.getResource("/view/iconesair (1).png")));
 		btnVoltar.setBounds(532, 330, 152, 57);
 		btnVoltar.addActionListener(new ActionListener() {
 
