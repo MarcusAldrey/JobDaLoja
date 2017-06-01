@@ -236,5 +236,6 @@ public class Controller {
 		datanasc = converterPadToSql(datanasc);
 		Statement statement = con.createStatement();
 		statement.execute("UPDATE Clientes SET Nome = '"+ Novonome + "', CPF = '" + cpf + "', Telefone = '" + telefone + "', DataDeNascimento = '" + datanasc + "', Endereco = '" + endereco + "', Email = '" + email + "'  WHERE Nome = '" + nomeAntigo + "'");
+		statement.execute("UPDATE Compras SET NomeComprador = '" + Novonome + "' WHERE NomeComprador = '" + nomeAntigo + "'");
 	}
 }
