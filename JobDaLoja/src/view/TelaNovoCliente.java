@@ -49,6 +49,7 @@ public class TelaNovoCliente extends JFrame {
 	private JFormattedTextField dataDeNascimento_1;
 	private JTextField txtddd;
 	JComboBox<String> comboBoxEstado;
+	private JTextField textFieldEmail;
 
 	/**
 	 * Create the frame.
@@ -114,7 +115,7 @@ public class TelaNovoCliente extends JFrame {
 		
 		JLabel lblEndereo = new JLabel("Endere\u00E7o");
 		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblEndereo.setBounds(10, 157, 57, 14);
+		lblEndereo.setBounds(10, 181, 57, 14);
 		contentPane.add(lblEndereo);
 		
 		JLabel lblDadosPessoais = new JLabel("Dados Pessoais");
@@ -124,18 +125,18 @@ public class TelaNovoCliente extends JFrame {
 		
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblCidade.setBounds(10, 182, 46, 14);
+		lblCidade.setBounds(10, 206, 46, 14);
 		contentPane.add(lblCidade);
 		
 		JLabel lblRua = new JLabel("Rua:");
 		lblRua.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblRua.setBounds(10, 232, 46, 14);
+		lblRua.setBounds(10, 256, 46, 14);
 		contentPane.add(lblRua);
 		
 		txtCidade = new JTextField();
 		txtCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtCidade.setText("Feira de Santana");
-		txtCidade.setBounds(61, 179, 100, 20);
+		txtCidade.setBounds(61, 203, 100, 20);
 		contentPane.add(txtCidade);
 		txtCidade.setColumns(10);
 		
@@ -143,7 +144,7 @@ public class TelaNovoCliente extends JFrame {
 
 		comboBoxEstado = new JComboBox<String>();
 		comboBoxEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		comboBoxEstado.setBounds(225, 179, 40, 20);
+		comboBoxEstado.setBounds(225, 203, 40, 20);
 		for(String estado : estados)
 			comboBoxEstado.addItem(estado);
 		comboBoxEstado.setSelectedIndex(4);
@@ -151,37 +152,37 @@ public class TelaNovoCliente extends JFrame {
 		
 		JLabel lblEstado = new JLabel("Estado:");
 		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblEstado.setBounds(180, 182, 46, 14);
+		lblEstado.setBounds(180, 206, 46, 14);
 		contentPane.add(lblEstado);
 		
 		textRua = new JTextField();
 		textRua.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textRua.setColumns(10);
-		textRua.setBounds(61, 229, 100, 20);
+		textRua.setBounds(61, 253, 100, 20);
 		contentPane.add(textRua);
 		
 		JLabel lblBairro = new JLabel("Bairro:");
 		lblBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblBairro.setBounds(10, 207, 46, 14);
+		lblBairro.setBounds(10, 231, 46, 14);
 		contentPane.add(lblBairro);
 		
 		textBairro = new JTextField();
 		textBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textBairro.setColumns(10);
-		textBairro.setBounds(61, 204, 100, 20);
+		textBairro.setBounds(61, 228, 100, 20);
 		contentPane.add(textBairro);
 		
 		textNumero = new JTextField();
 		textNumero.setText("0");
 		textNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		textNumero.setBounds(225, 204, 65, 20);
+		textNumero.setBounds(225, 228, 65, 20);
 		contentPane.add(textNumero);
 		textNumero.addKeyListener(new OnlyDigits());
 		textNumero.setColumns(10);
 		
 		JLabel lblN = new JLabel("N\u00BA:");
 		lblN.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblN.setBounds(180, 207, 46, 14);
+		lblN.setBounds(180, 231, 46, 14);
 		contentPane.add(lblN);
 		
 		JLabel lblDataDeNascimento = new JLabel("Data de Nascimento:");
@@ -237,6 +238,17 @@ public class TelaNovoCliente extends JFrame {
 		txtddd.setBounds(65, 86, 22, 20);
 		contentPane.add(txtddd);
 		txtddd.setColumns(10);
+		
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblEmail.setBounds(10, 139, 46, 14);
+		contentPane.add(lblEmail);
+		
+		textFieldEmail = new JTextField();
+		textFieldEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textFieldEmail.setColumns(10);
+		textFieldEmail.setBounds(65, 136, 295, 20);
+		contentPane.add(textFieldEmail);
 	}
 	
 	public class AdicionarClienteAction implements ActionListener {
@@ -247,7 +259,7 @@ public class TelaNovoCliente extends JFrame {
 			if(!textNumero.getText().equals(""))
 				numero = Integer.parseInt(textNumero.getText());
 			try {
-				Controller.cadastrarCliente(txtNome.getText(), "(" + txtddd.getText() +")" + telefone_1.getText(), cpf_1.getText(), comboBoxEstado.getSelectedItem().toString(), txtCidade.getText(), textBairro.getText(), textRua.getText(), numero, dataDeNascimento_1.getText());
+				Controller.cadastrarCliente(txtNome.getText(), "(" + txtddd.getText() +")" + telefone_1.getText(), cpf_1.getText(), comboBoxEstado.getSelectedItem().toString(), txtCidade.getText(), textBairro.getText(), textRua.getText(), numero, dataDeNascimento_1.getText(), textFieldEmail.getText());
 			} catch (NumberFormatException e1) {
 				JOptionPane.showMessageDialog(null, "Algum campo foi preenchido incorretamente");
 				e1.printStackTrace();

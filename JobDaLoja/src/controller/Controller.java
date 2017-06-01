@@ -22,9 +22,9 @@ public class Controller {
 		con = DataBase.getConnection();
 	}
 
-	public static void cadastrarCliente(String nome, String telefone, String CPF, String estado, String cidade, String bairro, String rua, int numero, String dataDeNascimento) throws ClassNotFoundException, SQLException {
+	public static void cadastrarCliente(String nome, String telefone, String CPF, String estado, String cidade, String bairro, String rua, int numero, String dataDeNascimento, String email) throws ClassNotFoundException, SQLException {
 
-		PreparedStatement user = con.prepareStatement("INSERT INTO Clientes VALUES (?,?,?,?,?,?)");
+		PreparedStatement user = con.prepareStatement("INSERT INTO Clientes VALUES (?,?,?,?,?,?,?)");
 		user.setString(1, nome);
 		user.setString(2, CPF);
 		user.setString(3, telefone);
@@ -33,6 +33,7 @@ public class Controller {
 			user.setString(5, "Rua " + rua + ", bairro " + bairro + ", Nº " + numero + ", " + cidade +", " + estado);
 		else
 			user.setString(5, "");
+		user.setString(7, email);
 		user.execute();
 	}
 
@@ -67,7 +68,7 @@ public class Controller {
 
 	public static ResultSet getCliente(String nome) throws SQLException, ClassNotFoundException {
 		Statement clientes = con.createStatement();
-		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone, DataDeNascimento, Endereco, OutrosDebitos FROM Clientes WHERE Nome='" + nome + "'");
+		ResultSet rs = clientes.executeQuery("SELECT Nome, CPF, Telefone, DataDeNascimento, Endereco, OutrosDebitos, Email FROM Clientes WHERE Nome='" + nome + "'");
 		return rs;		
 	}
 

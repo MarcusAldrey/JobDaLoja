@@ -83,7 +83,7 @@ public class TelaCliente extends JFrame {
 
 		JLabel lblClientname = new JLabel(rs.getString(1));
 		lblClientname.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblClientname.setBounds(60, 39, 348, 16);
+		lblClientname.setBounds(60, 39, 314, 16);
 		contentPane.add(lblClientname);
 
 		JLabel lblCpf = new JLabel("CPF:");
@@ -113,12 +113,12 @@ public class TelaCliente extends JFrame {
 
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEndereo.setBounds(10, 127, 77, 16);
+		lblEndereo.setBounds(10, 151, 77, 16);
 		contentPane.add(lblEndereo);
 
 		JLabel lblCompras = new JLabel("Compras");
 		lblCompras.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCompras.setBounds(10, 171, 77, 16);
+		lblCompras.setBounds(10, 195, 77, 16);
 		contentPane.add(lblCompras);
 
 		JButton btnVoltar = new JButton("Voltar");
@@ -133,7 +133,7 @@ public class TelaCliente extends JFrame {
 		getContentPane().add(btnVoltar);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 198, 364, 201);
+		scrollPane.setBounds(10, 222, 364, 177);
 		contentPane.add(scrollPane);
 
 		ResultSet compras = Controller.getCompras(nome);
@@ -298,12 +298,12 @@ public class TelaCliente extends JFrame {
 
 		JLabel enderecoCliente = new JLabel();
 		enderecoCliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		enderecoCliente.setBounds(85, 127, 106, 16);
+		enderecoCliente.setBounds(85, 151, 289, 16);
 
 		JLabel restoEndereco = new JLabel();
 		restoEndereco.setText("<dynamic>");
 		restoEndereco.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		restoEndereco.setBounds(10, 144, 289, 16);
+		restoEndereco.setBounds(10, 170, 289, 16);
 		contentPane.add(restoEndereco);
 
 		JButton btnSalvarMudanEmParcelas = new JButton("Salvar Mudan\u00E7as");
@@ -319,6 +319,16 @@ public class TelaCliente extends JFrame {
 		enderecoCliente.setText(endereco);
 		restoEndereco.setText(resto);
 		contentPane.add(enderecoCliente);		
+		
+		JLabel lblEmail = new JLabel("Email: ");
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblEmail.setBounds(10, 127, 46, 16);
+		contentPane.add(lblEmail);
+		
+		JLabel textEmail = new JLabel(rs.getString(7));
+		textEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textEmail.setBounds(60, 127, 314, 16);
+		contentPane.add(textEmail);
 
 		this.setTitle("La Victoria - Informações de cliente");
 	}
