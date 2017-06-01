@@ -131,8 +131,10 @@ public class TelaAniversario extends JPanel {
 						String texto = (String) table.getModel().getValueAt(j, 0);
 						String nomePessoa = (String) table.getModel().getValueAt(j, 1);
 						String data2 = Controller.converterSqlToPad(aniversariante.getString(1));
+						String telefone = aniversariante.getString(2);
 						if(texto.equals(data2)){
-							table.getModel().setValueAt(nomePessoa+"   HOJE!!!!!", j, 1);
+							//table.getModel().setValueAt(nomePessoa+" "+telefone+" "+"HOJE!!!!!", j, 1);
+							table.getModel().setValueAt(nomePessoa+" - - "+telefone+" - - "+"HOJE!!", j, 1);
 						}
 					}
 				}

@@ -116,7 +116,7 @@ public class Controller {
 			tamanhoRetorno = 0;
 		}
 		
-		ResultSet rs = statement.executeQuery("SELECT DataDeNascimento FROM Clientes WHERE DataDeNascimento LIKE '____-"+mesAtual+"-"+diaAtual+"'");
+		ResultSet rs = statement.executeQuery("SELECT DataDeNascimento,Telefone FROM Clientes WHERE DataDeNascimento LIKE '____-"+mesAtual+"-"+diaAtual+"'");
 		return rs;
 	}
 	
