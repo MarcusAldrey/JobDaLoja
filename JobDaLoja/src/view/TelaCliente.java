@@ -61,7 +61,7 @@ public class TelaCliente extends JFrame {
 	JTextField lbltextEmail;
 	Border bordaPadrao;
 	Color bgpadrao;
-
+	
 	/**
 	 * Create the frame.
 	 * @throws SQLException 
@@ -204,7 +204,7 @@ public class TelaCliente extends JFrame {
 				dispose();
 				JFrame frame = null;
 				try {
-					frame = new TelaNovaCompra(rs.getString(1));
+					frame = new TelaNovaCompra(nomeCliente);
 				} catch (SQLException | ClassNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, "Não foi possível acessar o bando de dados");
 					e1.printStackTrace();
@@ -311,7 +311,7 @@ public class TelaCliente extends JFrame {
 			e1.printStackTrace();
 		}
 		if(!(niver == null)) 
-			lblniverTxt = new JTextField(Controller.converterSqlToPad(niver));
+		lblniverTxt.setText(Controller.converterSqlToPad(niver));
 		lblniverTxt.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblniverTxt.setBounds(97, 108, 97, 20);
 		contentPane.add(lblniverTxt);
@@ -552,8 +552,6 @@ public class TelaCliente extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			Controller.editarDadosCliente(lblClientname.getText(),lblCpfCliente.getText(),lbllTelefoneCliente.getText(),lblniverTxt.getText(),lblenderecoCliente.getText(), lbltextEmail.getText());
-
 			buttonEditar.setVisible(true);
 			buttonSalvarEdicao.setVisible(false);
 			
@@ -582,6 +580,15 @@ public class TelaCliente extends JFrame {
 			
 			lbltextEmail.setBackground(null);
 			lbltextEmail.setBorder(null);
+			try {
+				Controller.editarDadosCliente(nomeCliente, lblClientname.getText(),lblCpfCliente.getText(),lbllTelefoneCliente.getText(),lblniverTxt.getText(),lblenderecoCliente.getText(), lbltextEmail.getText());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Não foi possível alterar as informações do cliente");
+				return;
+			}
+			nomeCliente = lblClientname.getText();		
 		}
 		
 	}

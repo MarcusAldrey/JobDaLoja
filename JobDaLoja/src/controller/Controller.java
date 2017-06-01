@@ -226,12 +226,15 @@ public class Controller {
 		return tamanhoRetorno;
 	}
 
-	public static void editarDadosCliente(String nome, String cpf, String telefone, String datanasc, String endereco,
-			String email) {
+	public static void editarDadosCliente(String nomeAntigo, String Novonome, String cpf, String telefone, String datanasc, String endereco,
+			String email) throws SQLException {
 		// TODO Auto-generated method stub
-		if(!datanasc.matches(("\\d{2}/\\d{2}/\\d{4}")))
+		if(!datanasc.matches(("\\d{2}/\\d{2}/\\d{4}"))) {
 			JOptionPane.showMessageDialog(null, "Data de Nascimento em formato errado!");
 			return;
-		
+		}
+		datanasc = converterPadToSql(datanasc);
+		Statement statement = con.createStatement();
+		statement.execute("UPDATE Clientes SET Nome = '"+ Novonome + "', CPF = '" + cpf + "', Telefone = '" + telefone + "', DataDeNascimento = '" + datanasc + "', Endereco = '" + endereco + "', Email = '" + email + "'  WHERE Nome = '" + nomeAntigo + "'");
 	}
 }
