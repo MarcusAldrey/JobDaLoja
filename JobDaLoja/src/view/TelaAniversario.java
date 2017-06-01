@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -133,8 +135,12 @@ public class TelaAniversario extends JPanel {
 						String data2 = Controller.converterSqlToPad(aniversariante.getString(1));
 						String telefone = aniversariante.getString(2);
 						if(texto.equals(data2)){
-							//table.getModel().setValueAt(nomePessoa+" "+telefone+" "+"HOJE!!!!!", j, 1);
-							table.getModel().setValueAt(nomePessoa+" - - "+telefone+" - - "+"HOJE!!", j, 1);
+							if(telefone !=null){
+								table.getModel().setValueAt("É hoje!   \nDê os parabéns à "+nomePessoa+"\nTel:"+telefone+"", j, 1);
+							}else{
+								table.getModel().setValueAt("É hoje!   \nDê os parabéns à "+nomePessoa+"\nTel: Não Disponível", j, 1);
+							}
+							
 						}
 					}
 				}
@@ -142,6 +148,8 @@ public class TelaAniversario extends JPanel {
 				table.getColumnModel().getColumn(0).setPreferredWidth(70);
 				table.getColumnModel().getColumn(1).setPreferredWidth(200);
 				table.getColumnModel().getColumn(1).setMinWidth(200);
+				table.setRowHeight(65);
+				table.getColumnModel().getColumn(1).setCellRenderer(new MyTableCellRenderer());
 				table.setFillsViewportHeight(true);
 				table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				table.setSurrendersFocusOnKeystroke(true);
@@ -159,5 +167,31 @@ public class TelaAniversario extends JPanel {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao acessar o banco de dados");
 		}
+	}
+	
+	class MyTableCellRenderer extends JTextArea implements TableCellRenderer {
+		
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+		      boolean hasFocus, int rowIndex, int vColIndex) {
+
+			String text;
+			
+			setWrapStyleWord(true);
+			setLineWrap(true);
+			if(((String)value).contains("   ")){
+				setBackground(new Color(254,198,6,240));
+				setFont(new Font("Arial", Font.BOLD, 12));
+				
+			}else{
+				setBackground(Color.white);
+				setFont(new Font("Arial", Font.PLAIN, 12));
+			}
+			
+			text = ((String) value).replace("::","\n");
+		    setText(text);
+		    return this;
+		  }
+		  
 	}
 }
