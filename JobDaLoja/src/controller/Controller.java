@@ -161,11 +161,38 @@ public class Controller {
 			n=0;
 		statement.execute("UPDATE Parcelas SET Pago = "+ n + " WHERE IdParcela = " + iDParcela);
 	}
+	
+	public static ResultSet getNomeComprador(int idCompra) throws SQLException {
+		Statement statement = con.createStatement();
+		ResultSet rs = statement.executeQuery("SELECT NomeComprador FROM Compras WHERE IDCompra = " + idCompra);
+		return rs;
+	}
 
 	public static void atualizarOutrosDebitos(String nomeCliente, float novoValor) throws SQLException {
 		// TODO Auto-generated method stub
 		Statement statement = con.createStatement();
 		statement.execute("UPDATE Clientes SET OutrosDebitos = "+ novoValor + " WHERE Nome = '" + nomeCliente + "'");
 	}
-
+	
+	/* 1 para vencidas hoje 
+	 * 2 para vencidas nos próximos 3 dias
+	 * 3 para vencidas nos proximos 7 dias
+	 * 4 para já vencidas
+	 */
+	public static ResultSet getComprasVencidas(int modificador) throws SQLException {
+		String dataAtual;
+		Calendar cal = Calendar.getInstance();
+		String day = String.format("%02d", cal.get(Calendar.DATE));
+		String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+		String year = Integer.toString(cal.get(Calendar.YEAR));
+		dataAtual = year + "-" + month + "-" + day;
+		Statement statement = con.createStatement();
+		ResultSet rs = null;
+		if (modificador == 1) {
+			rs = statement.executeQuery("SELECT IdCompra, ValorTotal, ValorPago, Vencimento FROM Parcelas WHERE Vencimento = '" + dataAtual + "' AND Pago = 0");
+		}
+		else if(modificador == 2) 
+			rs = statement.executeQuery("SELECT IdCompra, ValorTotal, ValorPago, Vencimento FROM Parcelas WHERE Vencimento < '" + dataAtual + "' AND Pago = 0");
+		return rs;
+	}
 }

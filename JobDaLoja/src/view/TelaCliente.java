@@ -307,7 +307,7 @@ public class TelaCliente extends JFrame {
 		contentPane.add(restoEndereco);
 
 		JButton btnSalvarMudanEmParcelas = new JButton("Salvar Mudan\u00E7as");
-		btnSalvarMudanEmParcelas.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/1493128621_Checkmark.png")));
+		btnSalvarMudanEmParcelas.setIcon(new ImageIcon(TelaCliente.class.getResource("/view/iconeConfirmacao.png")));
 		btnSalvarMudanEmParcelas.setBounds(65, 398, 170, 45);
 		btnSalvarMudanEmParcelas.addActionListener(new SalvarMudancasEmParcelasAction());
 		panel.add(btnSalvarMudanEmParcelas);

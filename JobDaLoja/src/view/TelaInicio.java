@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -67,8 +68,9 @@ public class TelaInicio extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public TelaInicio() {
+	public TelaInicio() throws SQLException {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaInicio.class.getResource("/view/logo.jpg")));
 		setTitle("La Victoria Boutique");
@@ -113,6 +115,7 @@ public class TelaInicio extends JFrame {
 		JLabel NotificaoVencimento = new JLabel("");
 		NotificaoVencimento.setIcon(new ImageIcon(TelaInicio.class.getResource("/view/warning.png")));
 		NotificaoVencimento.setBounds(281, 273, 46, 42);
+		NotificaoVencimento.setVisible(false);
 		contentPane.add(NotificaoVencimento, new Integer(2));
 		
 		JLabel NotificacaoNiver = new JLabel("");
@@ -141,6 +144,9 @@ public class TelaInicio extends JFrame {
 		btnAniversrios.addActionListener(new AniversariosAction());
 		contentPane.add(btnAniversrios);
 		
+		ResultSet rs = Controller.getComprasVencidas(1);
+		if(rs.next())
+			NotificaoVencimento.setVisible(true);
 	}
 	
 	private class CadastroClienteAction implements ActionListener {
