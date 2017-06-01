@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import controller.Controller;
+import javax.swing.SwingConstants;
 
 public class TelaAniversario extends JPanel {
 
@@ -45,7 +46,7 @@ public class TelaAniversario extends JPanel {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screen.width-largura)/2;
 		int y = (screen.height-altura)/2;
-		janela.setBounds(x,y,largura,altura);
+		janela.setBounds(x,y,400,500);
 		janela.setVisible(true);
 		janela.getContentPane().add(this);
 		setLayout(null);
@@ -55,7 +56,11 @@ public class TelaAniversario extends JPanel {
 		lblAniversariantesDoMs.setBounds(10, 31, 337, 19);
 		add(lblAniversariantesDoMs);
 		
-		
+		JLabel lblNenhumAniversarianteNeste = new JLabel("Nenhum aniversariante neste m\u00EAs");
+		lblNenhumAniversarianteNeste.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNenhumAniversarianteNeste.setBounds(10, 189, 364, 14);
+		add(lblNenhumAniversarianteNeste);
+				
 		try {
 			
 			rs = Controller.getAniversariantes();
@@ -64,6 +69,7 @@ public class TelaAniversario extends JPanel {
 			String nome;
 
 			if(qtdLinhas>0){
+				lblNenhumAniversarianteNeste.setVisible(false);
 				String[][] aniversarios = new String [qtdLinhas][2];
 				int i=0;
 				while(rs.next()){
@@ -146,8 +152,7 @@ public class TelaAniversario extends JPanel {
 				table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				table.setSurrendersFocusOnKeystroke(true);
 				table.setRowSelectionAllowed(false);
-				table.setRowSelectionAllowed(true);	
-				
+				table.setRowSelectionAllowed(true);					
 				
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {

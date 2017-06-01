@@ -25,13 +25,13 @@ public class SplashScreen extends JWindow {
 		JPanel content = (JPanel)getContentPane();
 		// Configura a posição e o tamanho da janela
 		int largura = 720;
-		int altura = 216;
+		int altura = 308;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screen.width-largura)/2;
 		int y = (screen.height-altura)/2;
 		setBounds(x,y,largura,altura);
 		// Constrói o splash screen
-		URL url = this.getClass().getResource("splashScreen.jpg");  
+		URL url = this.getClass().getResource("splash.png");  
 		JLabel label = new JLabel(new ImageIcon(url));
 		content.add(label);
 		setVisible(true);
