@@ -63,11 +63,13 @@ public class TelaVencimentos extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		rdbtnHoje = new JRadioButton("Mostra compras que vencem HOJE");
+		rdbtnHoje = new JRadioButton("Mostrar compras que vencem HOJE");
+		rdbtnHoje.setBackground(Color.WHITE);
 		rdbtnHoje.setBounds(6, 7, 281, 23);
 		contentPane.add(rdbtnHoje);
 		
 		rdbtnVencidas = new JRadioButton("Mostrar compras vencidas");
+		rdbtnVencidas.setBackground(Color.WHITE);
 		rdbtnVencidas.setBounds(6, 58, 157, 23);
 		contentPane.add(rdbtnVencidas);
 		
