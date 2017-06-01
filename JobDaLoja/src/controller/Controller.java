@@ -77,7 +77,7 @@ public class Controller {
 	public static ResultSet getClientes() throws ClassNotFoundException, SQLException {
 		new Controller();
 		Statement statement = con.createStatement();
-		ResultSet rs = statement.executeQuery("SELECT Nome, CPF, Telefone FROM Clientes");
+		ResultSet rs = statement.executeQuery("SELECT Nome, CPF, Telefone FROM Clientes ORDER BY Nome ASC");
 		return rs;
 	}
 
